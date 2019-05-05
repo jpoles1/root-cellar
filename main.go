@@ -4,7 +4,6 @@ import (
 	"math"
 	"root-cellar/controllers"
 	"root-cellar/envload"
-	"root-cellar/logging"
 	"root-cellar/microservices"
 	"root-cellar/routers"
 
@@ -17,7 +16,7 @@ func main() {
 	//Load environment variables
 	envConfig, _ := envload.LoadEnv(".env")
 	//Enable logging with Sentry
-	logging.LoadSentry(envConfig.SentryDSN)
+	//logging.LoadSentry(envConfig.SentryDSN)
 	//Ensure authorization config setup properly
 	authConfig, err := envload.LoadAuthConfig()
 	if err != nil {
