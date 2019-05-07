@@ -7,13 +7,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
-		api_url: "",
+		apiURL: "",
 		jwtToken: undefined,
 		jwtClaims: {},
 	},
 	mutations: {
 		setLocalAPI (state) {
-			state.api_url = "http://127.0.0.1:5555"
+			state.apiURL = "http://127.0.0.1:5555/api"
 		},
 		setJWTToken (state, newToken) {
 			state.jwtToken = newToken

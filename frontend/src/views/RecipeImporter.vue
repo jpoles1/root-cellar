@@ -1,17 +1,27 @@
 <template>
 	<div>
-		<div v-if="recipeData">
-			<input type="text" placeholder="Recipe Name" v-model="recipeData.name"
-				style="font-size: 28pt; text-align: center; margin-bottom: 20px;"/>
-			<div style="display: flex; justify-content: space-around;">
-				{{recipeData}}
+		<input type="text" placeholder="Recipe Name" v-model="name"
+			style="font-size: 28pt; text-align: center; margin-bottom: 20px;"/>
+		<div style="display: flex; justify-content: space-around;">
+			<div style="width: 45%;">
+				<h2>Ingredients:</h2>
+				<textarea v-model=ingredientString style="width: 100%; height: 220px;">
+
+				</textarea>
+				<hr>
+				{{ingredientList}}
 			</div>
-			<div>
-				<button @click="saveRecipe">Save</button>
+			<div style="width: 45%;">
+				<h2>Instructions:</h2>
+				<textarea v-model=instructionString style="width: 100%; height: 220px;">
+
+				</textarea>
+				<hr>
+				{{instructionList}}
 			</div>
 		</div>
-		<div v-else>
-			<h2>Error fetching recipe data!</h2>
+		<div>
+			<button @click="saveRecipe">Save</button>
 		</div>
 	</div>
 </template>
@@ -24,7 +34,7 @@ import * as iparser from "@/components/ingredient-parser"
 const ingredientString =
 `½ cup raw pistachios
 4 cups cilantro, mint, basil, and/or dill
-1 (or up to 3) serrano chile, stems removed, split lengthwise
+1 serrano chile, (or up to 3, stems removed, split lengthwise)
 ¼ cup fresh lime juice
 2 Tbsp. white miso
 ½ tsp. kosher salt, plus more
@@ -34,7 +44,7 @@ const ingredientString =
 3 scallions
 ¾ cup crumbled feta
 ½ cup golden raisins
-1 cup shelled fresh peas (from about 1 lb. pods) or frozen peas, thawed`
+1 cup shelled fresh peas (from about 1 lb. pods or frozen peas, thawed)`
 
 const instructionString =
 `Preheat oven to 350°. Toast pistachios on a rimmed baking sheet, tossing once, until golden brown, 5–8 minutes. Let cool, then coarsely chop.
@@ -53,13 +63,22 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			recipeData: undefined,
+			"name": "",
+			"desc": "",
+			"ingredientString": ingredientString,
+			"instructionString": instructionString,
 		}
 	},
 	methods: {
 		saveRecipe() {
-			let url = this.$store.state.apiURL + "/recipe/" + this.recipeID + "/update"
-			jajax.postJSON(url, this.recipeData, this.$store.state.jwtToken)
+			let recipeData = {
+				"name": this.name,
+				"desc": this.desc,
+				"ingredients": this.ingredientList,
+				"instructions": this.instructionList,
+			}
+			let url = this.$store.state.apiURL + "/recipe/import"
+			jajax.postJSON(url, recipeData, this.$store.state.jwtToken)
 				.then(function (resp) {
 					if (resp.recipeID) {
 						window.location.href = "/recipe/" + resp.recipeID + "/edit"
@@ -68,19 +87,20 @@ export default Vue.extend({
 		},
 	},
 	computed: {
+		ingredientList(): iparser.Ingredient[] {
+			let ingredientStringList = this.ingredientString.split("\n")
+				.map((x) => x.trim())
+				.filter((x) => x.length > 0)
+			let ingredientList = ingredientStringList.map((x) => iparser.parse(x))
+			return ingredientList
+		},
+		instructionList(): string[] {
+			let instructionList = this.instructionString.split("\n")
+				.map((x) => x.trim())
+				.filter((x) => x.length > 0)
+			return instructionList
+		},
 
-	},
-	mounted() {
-		this.$nextTick(() => {
-			let url = this.$store.state.apiURL + "/recipe/" + this.recipeID
-			jajax.getJSON(url, this.$store.state.jwtToken)
-				.then((resp) => {
-					this.recipeData = resp
-				})
-				.catch((err) => {
-					console.log(err)
-				})
-		})
 	},
 })
 </script>

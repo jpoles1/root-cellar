@@ -37,10 +37,10 @@ export default Vue.extend({
 			var urlParams = this.$route.query
 			var url
 			if (!(urlParams.state && urlParams.code)) {
-				window.location.href = this.$store.state.api_url + "/api/auth/" + this.provider
+				window.location.href = this.$store.state.apiURL + "/auth/" + this.provider
 				return
 			}
-			url = this.$store.state.api_url + "/api/auth/" + this.provider + "/callback"
+			url = this.$store.state.apiURL + "/auth/" + this.provider + "/callback"
 			url += "?state=" + encodeURIComponent(urlParams.state as string)
 			url += "&code=" + encodeURIComponent(urlParams.code as string)
 
@@ -56,7 +56,7 @@ export default Vue.extend({
 			}).catch(([xhrStatus]) => {
 				this.serverError = xhrStatus
 				setTimeout(() => {
-					window.location.href = this.$store.state.api_url + "/api/auth/" + this.provider
+					window.location.href = this.$store.state.apiURL + "/auth/" + this.provider
 				}, 1500)
 			})
 		})

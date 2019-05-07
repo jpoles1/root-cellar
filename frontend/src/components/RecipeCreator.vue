@@ -7,13 +7,15 @@
 <script lang="ts">
 import Vue from "vue"
 import * as jajax from "@/jajax"
+
 export default Vue.extend({
 	methods: {
 		createRecipe() {
-			jajax.getJSON("http://127.0.0.1:5555/api/recipe/new", this.$store.state.jwtToken)
+			let url = this.$store.state.apiURL + "/recipe/new"
+			jajax.getJSON(url, this.$store.state.jwtToken)
 				.then((resp) => {
 					if (resp.recipeID) {
-						window.location.href = "/recipe/" + resp.recipeID
+						window.location.href = "/recipe/" + resp.recipeID + "/edit"
 					}
 				})
 				.catch((err) => {

@@ -1,17 +1,18 @@
-import * as convert from './convert'
-import { units, pluralUnits } from './units'
-import { repeatingFractions } from './repeatingFractions'
-import * as Natural from './natural-webpack'
+import * as convert from "./convert"
+import { units, pluralUnits } from "./units"
+import { repeatingFractions } from "./repeatingFractions"
+import * as Natural from "./natural-webpack"
 
 const nounInflector = new Natural.NounInflector()
 
 export interface Ingredient {
 	ingredient: string;
-	quantity: string | null;
+	quantity: number | null;
 	unit: string | null;
+	notes: string | undefined;
 }
 
-function getUnit(input: string) {
+function getUnit(input: string): string[] {
 	if (units[input] || pluralUnits[input]) {
 		return [input]
 	}
@@ -30,7 +31,7 @@ function getUnit(input: string) {
 	return []
 }
 
-export function parse(recipeString: string) {
+export function parse(recipeString: string): Ingredient {
 	const ingredientLine = recipeString.trim() // removes leading and trailing whitespace
 
 	/* restOfIngredient represents rest of ingredient line
@@ -43,21 +44,22 @@ export function parse(recipeString: string) {
 	For example: "sugar (or other sweetener)" --> extraInfo: "(or other sweetener)" */
 	let extraInfo
 	if (convert.getFirstMatch(restOfIngredient, /\(([^)]+)\)/)) {
-		extraInfo = convert.getFirstMatch(restOfIngredient, /\(([^)]+)\)/)
-		restOfIngredient = restOfIngredient.replace(extraInfo, '').trim()
+		extraInfo = convert.getFirstMatch(restOfIngredient, /\(([^)]+)\)/).replace(/[()]/g, "")
+		restOfIngredient = restOfIngredient.replace(extraInfo, "").trim()
 	}
 
-	const [unit, shorthand] = getUnit(restOfIngredient.split(' ')[0]) as string[]
-	const ingredient = shorthand ? restOfIngredient.replace(shorthand, '').trim() : restOfIngredient.replace(unit, '').trim()
+	const [unit, shorthand] = getUnit(restOfIngredient.split(" ")[0]) as string[]
+	const ingredient = shorthand ? restOfIngredient.replace(shorthand, "").trim() : restOfIngredient.replace(unit, "").trim()
 
 	return {
-		quantity,
+		quantity: parseFloat(quantity) || 0,
 		unit: unit || null,
-		ingredient: extraInfo ? `${ingredient} ${extraInfo}` : ingredient,
+		ingredient: ingredient,
+		notes: extraInfo,
 	}
 }
 
-export function combine(ingredientArray: Ingredient[]) {
+export function combine(ingredientArray: Ingredient[]): Ingredient[] {
 	const combinedIngredients = ingredientArray.reduce((acc, ingredient) => {
 		const key = ingredient.ingredient + ingredient.unit // when combining different units, remove this from the key and just use the name
 		const existingIngredient = acc[key]
@@ -75,20 +77,20 @@ export function combine(ingredientArray: Ingredient[]) {
 	}, [] as Ingredient[]).sort(compareIngredients)
 }
 
-export function prettyPrintingPress(ingredient: Ingredient) {
-	let quantity = ''
+export function prettyPrintingPress(ingredient: Ingredient): string {
+	let quantity = ""
 	let unit = ingredient.unit
 	if (ingredient.quantity) {
-		const [whole, remainder] = ingredient.quantity.split('.')
-		if (+whole !== 0 && typeof whole !== 'undefined') {
+		const [whole, remainder] = ("" + ingredient.quantity).split(".")
+		if (+whole !== 0 && typeof whole !== "undefined") {
 			quantity = whole
 		}
-		if (+remainder !== 0 && typeof remainder !== 'undefined') {
+		if (+remainder !== 0 && typeof remainder !== "undefined") {
 			let fractional
 			if (repeatingFractions[remainder]) {
 				fractional = repeatingFractions[remainder]
 			} else {
-				const fraction = '0.' + remainder
+				const fraction = "0." + remainder
 				const len = fraction.length - 2
 				let denominator = Math.pow(10, len)
 				let numerator = +fraction * denominator
@@ -97,19 +99,19 @@ export function prettyPrintingPress(ingredient: Ingredient) {
 
 				numerator /= divisor
 				denominator /= divisor
-				fractional = Math.floor(numerator) + '/' + Math.floor(denominator)
+				fractional = Math.floor(numerator) + "/" + Math.floor(denominator)
 			}
 
-			quantity += quantity ? ' ' + fractional : fractional
+			quantity += quantity ? " " + fractional : fractional
 		}
-		if (((+whole !== 0 && typeof remainder !== 'undefined') || +whole > 1) && unit) {
+		if (((+whole !== 0 && typeof remainder !== "undefined") || +whole > 1) && unit) {
 			unit = nounInflector.pluralize(unit)
 		}
 	} else {
 		return ingredient.ingredient
 	}
 
-	return `${quantity}${unit ? ' ' + unit : ''} ${ingredient.ingredient}`
+	return `${quantity}${unit ? " " + unit : ""} ${ingredient.ingredient}`
 }
 
 function gcd(a: number, b: number): number {
@@ -126,7 +128,7 @@ function combineTwoIngredients(existingIngredients: Ingredient, ingredient: Ingr
 	return Object.assign({}, existingIngredients, { quantity })
 }
 
-function compareIngredients(a: Ingredient, b: Ingredient) {
+function compareIngredients(a: Ingredient, b: Ingredient): 0 | 1 | -1 {
 	if (a.ingredient === b.ingredient) {
 		return 0
 	}

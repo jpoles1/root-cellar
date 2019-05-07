@@ -1,6 +1,4 @@
-var exports = {}
-
-export function postJSON(url: string, payload: Object, authToken: string | undefined): Promise<any> {
+export function postJSON(url: string, payload: any, authToken: string | undefined): Promise<any> {
 	return jsonRequestPromise(url, "POST", payload, authToken)
 }
 
@@ -49,5 +47,3 @@ export function jsonRequestPromise(url: string, method: string, payload: Object 
 		}
 	})
 }
-
-export default exports

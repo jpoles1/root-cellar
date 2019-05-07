@@ -7,20 +7,16 @@ import (
 	"github.com/globalsign/mgo/bson"
 )
 
-//CreateRecipe runs a DB query to fetch a users document with a given ID
-func (mc MongoController) CreateRecipe(recipeID bson.ObjectId, userID bson.ObjectId) (ce ControllerError) {
+//UpsertRecipe runs a DB query to create or update a recipe document
+func (mc MongoController) UpsertRecipe(recipe models.Recipe) (ce ControllerError) {
 	var mongoConn *mgo.Session
 	mongoConn, ce.DBError = mc.SessionClone()
 	defer mongoConn.Close()
 	if ce.DBError != nil {
 		return
 	}
-	newRecipe := models.Recipe{
-		ID:     recipeID,
-		UserID: userID,
-	}
 	collection := mongoConn.DB(mc.DBName).C("recipes")
-	ce.DBError = collection.Insert(newRecipe)
+	_, ce.APIError = collection.UpsertId(recipe.ID, recipe)
 	return
 }
 
