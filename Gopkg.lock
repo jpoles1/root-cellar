@@ -157,7 +157,7 @@
 
 [[projects]]
   branch = "v2"
-  name = "gopkg.in/mgo.v2"
+  name = "github.com/globalsign/mgo"
   packages = [
     ".",
     "bson",

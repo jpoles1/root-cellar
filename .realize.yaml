@@ -25,11 +25,11 @@ schema:
   path: /home/jpoles1/godev/root-cellar
   commands:
     vet:
-      status: true
+      status: false
     fmt:
-      status: true
+      status: false
     test:
-      status: true
+      status: false
     run:
       status: true
   watcher:
@@ -41,3 +41,4 @@ schema:
     - .git
     - .realize
     - vendor
+    - frontend
