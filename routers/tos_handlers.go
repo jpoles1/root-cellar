@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/jwtauth"
-	"gopkg.in/mgo.v2/bson"
+	"github.com/globalsign/mgo/bson"
 )
 
 //GetAcceptTOS accepts a request to accept the TOS for the user's account

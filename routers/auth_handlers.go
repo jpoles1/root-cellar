@@ -8,10 +8,10 @@ import (
 	"time"
 
 	"github.com/danilopolani/gocialite"
+	"github.com/globalsign/mgo/bson"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/jwtauth"
 	gonanoid "github.com/matoous/go-nanoid"
-	"gopkg.in/mgo.v2/bson"
 )
 
 var envConfig, _ = envload.LoadEnv()
@@ -25,7 +25,7 @@ func (h APIHandler) AuthRedirect(w http.ResponseWriter, r *http.Request) {
 	}
 	authProvider := chi.URLParam(r, "provider")
 	providerScopes := map[string][]string{
-		"google": []string{},
+		"google": {},
 	}
 	authConfig := h.AuthProviderConfig[authProvider]
 	authScopes := providerScopes[authProvider]
@@ -74,16 +74,14 @@ func (h APIHandler) authRegistration(w http.ResponseWriter, authProvider string,
 	} else {
 		//If not, create a new account
 		userInfo = models.User{
-			ID:            bson.NewObjectId(),
-			PublicID:      generatePublicID(),
-			Username:      email,
-			FullName:      fullName,
-			LoginFullName: fullName,
-			Email:         email,
-			AuthProvider:  authProvider,
-			IsPremium:     false,
-			IsAdmin:       false,
-			IsOwner:       false,
+			ID:           bson.NewObjectId(),
+			PublicID:     generatePublicID(),
+			Username:     email,
+			FullName:     fullName,
+			Email:        email,
+			AuthProvider: authProvider,
+			IsAdmin:      false,
+			IsOwner:      false,
 		}
 		ce := h.Controller.AddUser(userInfo)
 		if ce.HasErrors() {
@@ -98,7 +96,6 @@ func (h APIHandler) authRegistration(w http.ResponseWriter, authProvider string,
 		"fullName":     userInfo.FullName,
 		"email":        userInfo.Email,
 		"authProvider": userInfo.AuthProvider,
-		"isPremium":    userInfo.IsPremium,
 		"isAdmin":      userInfo.IsAdmin,
 		"isOwner":      userInfo.IsOwner,
 		"acceptedTOS":  userInfo.AcceptedTOS,

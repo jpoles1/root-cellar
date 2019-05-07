@@ -4,7 +4,7 @@ import (
 	"root-cellar/logging"
 	"time"
 
-	mgo "gopkg.in/mgo.v2"
+	mgo "github.com/globalsign/mgo"
 )
 
 func mongoConnect(mc *MongoController) {

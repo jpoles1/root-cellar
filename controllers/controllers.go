@@ -5,7 +5,7 @@ import (
 	"root-cellar/logging"
 
 	"github.com/fatih/color"
-	mgo "gopkg.in/mgo.v2"
+	mgo "github.com/globalsign/mgo"
 )
 
 //MongoController is an implementation of a controller interface (not yet defined) which has the info needed to connect to a DB.

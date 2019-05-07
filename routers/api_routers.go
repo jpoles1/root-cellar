@@ -15,9 +15,13 @@ func APIRouter(r chi.Router, apiHandler APIHandler) chi.Router {
 	r.Group(func(r chi.Router) {
 		r.Use(jwtauth.Verifier(jwtAuthConfig))
 		r.Use(apiHandler.Authenticator)
-		r.Get("/acceptTOS", apiHandler.GetAcceptTOS)
+		//r.Get("/acceptTOS", apiHandler.GetAcceptTOS)
 		r.Group(func(r chi.Router) {
-			r.Use(apiHandler.TOSWall)
+			//r.Use(apiHandler.TOSWall)
+			r.Route("/recipe/", func(r chi.Router) {
+				r.Get("/new", apiHandler.GetNewRecipeID)
+				r.Get("/{recipeID}", apiHandler.GetRecipeByID)
+			})
 		})
 	})
 	return r

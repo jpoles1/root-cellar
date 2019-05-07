@@ -3,8 +3,8 @@ package controllers
 import (
 	"root-cellar/models"
 
-	mgo "gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
+	mgo "github.com/globalsign/mgo"
+	"github.com/globalsign/mgo/bson"
 )
 
 //AddUser runs a DB query to produce a new document in the users collection
@@ -28,17 +28,11 @@ func (mc MongoController) AcceptTOS(userID bson.ObjectId) (ce ControllerError) {
 	if ce.DBError != nil {
 		return
 	}
-	userCollection := mongoConn.DB(mc.DBName).C("users")
-	ce.APIError = userCollection.UpdateId(userID, bson.M{"$set": bson.M{"acceptedTOS": true}})
+	collection := mongoConn.DB(mc.DBName).C("users")
+	ce.APIError = collection.UpdateId(userID, bson.M{"$set": bson.M{"acceptedTOS": true}})
 	if ce.APIError != nil {
 		return
 	}
-	signatureCollection := mongoConn.DB(mc.DBName).C("signatures")
-	ce.APIError = signatureCollection.Insert(models.ContractSignature{
-		ID:            bson.NewObjectId(),
-		UserID:        userID,
-		SignatureType: "TOS",
-	})
 	return
 }
 
@@ -105,45 +99,5 @@ func (mc MongoController) UpdateUserByID(updatedUser models.User) (ce Controller
 	}
 	collection := mongoConn.DB(mc.DBName).C("users")
 	collection.UpdateId(updatedUser.ID, updatedUser)
-	return
-}
-
-//FetchProfileInfo will retreive an ProfileInfo for a given user ID
-func (mc MongoController) FetchProfileInfo(userID bson.ObjectId) (profile models.ProfileInfo, ce ControllerError) {
-	var mongoConn *mgo.Session
-	mongoConn, ce.DBError = mc.SessionClone()
-	defer mongoConn.Close()
-	if ce.DBError != nil {
-		return
-	}
-	collection := mongoConn.DB(mc.DBName).C("users")
-	var userEntry models.User
-	ce.APIError = collection.FindId(userID).One(&userEntry)
-	profile = models.ProfileInfo{
-		PublicID: userEntry.PublicID,
-		Username: userEntry.Username,
-	}
-	return
-}
-
-//FetchProfileInfoList will retreive a list of ProfileInfos for a list of user IDs
-func (mc MongoController) FetchProfileInfoList(userIDList []bson.ObjectId) (profileList []models.ProfileInfo, ce ControllerError) {
-	var mongoConn *mgo.Session
-	mongoConn, ce.DBError = mc.SessionClone()
-	defer mongoConn.Close()
-	if ce.DBError != nil {
-		return
-	}
-	collection := mongoConn.DB(mc.DBName).C("users")
-	var userList []models.User
-	ce.APIError = collection.Find(bson.M{
-		"_id": bson.M{"$in": userIDList},
-	}).All(&userList)
-	for _, userEntry := range userList {
-		profileList = append(profileList, models.ProfileInfo{
-			PublicID: userEntry.PublicID,
-			Username: userEntry.Username,
-		})
-	}
 	return
 }

@@ -34,6 +34,10 @@ func (ws *WebServer) Serve(apiHandler APIHandler) {
 	uploadsDir := filepath.Join(workDir, "/uploads")
 	fileServer(ws.Router, "/uploads", http.Dir(uploadsDir))
 
+	ws.Router.Route("/api", func(r chi.Router) {
+		APIRouter(r, apiHandler)
+	})
+
 	if *routes {
 		// fmt.Println(docgen.JSONRoutesDoc(r))
 		fmt.Println(docgen.MarkdownRoutesDoc(ws.Router, docgen.MarkdownOpts{
