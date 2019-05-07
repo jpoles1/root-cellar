@@ -44,8 +44,9 @@ export function parse(recipeString: string): Ingredient {
 	For example: "sugar (or other sweetener)" --> extraInfo: "(or other sweetener)" */
 	let extraInfo
 	if (convert.getFirstMatch(restOfIngredient, /\(([^)]+)\)/)) {
-		extraInfo = convert.getFirstMatch(restOfIngredient, /\(([^)]+)\)/).replace(/[()]/g, "")
+		extraInfo = convert.getFirstMatch(restOfIngredient, /\(([^)]+)\)/)
 		restOfIngredient = restOfIngredient.replace(extraInfo, "").trim()
+		extraInfo = extraInfo.replace(/[()]/g, "")
 	}
 
 	const [unit, shorthand] = getUnit(restOfIngredient.split(" ")[0]) as string[]
