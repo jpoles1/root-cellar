@@ -30,6 +30,7 @@ func main() {
 		MongoURI: envConfig.MongoURI,
 		DBName:   "rootcellar",
 	}
+	mongoController.EnsureCollectionIndex("recipes")
 	//Instantiate API handler
 	apiHandler := routers.APIHandler{
 		WebSocket:          melodyInstance,

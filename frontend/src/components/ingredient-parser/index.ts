@@ -7,9 +7,9 @@ const nounInflector = new Natural.NounInflector()
 
 export interface Ingredient {
 	ingredient: string;
-	quantity: number | null;
-	unit: string | null;
-	notes: string | undefined;
+	quantity?: number;
+	unit?: string;
+	notes?: string;
 }
 
 function getUnit(input: string): string[] {
@@ -54,7 +54,7 @@ export function parse(recipeString: string): Ingredient {
 
 	return {
 		quantity: parseFloat(quantity) || 0,
-		unit: unit || null,
+		unit: unit || undefined,
 		ingredient: ingredient,
 		notes: extraInfo,
 	}

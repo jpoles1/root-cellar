@@ -1,10 +1,26 @@
 <template>
 	<div>
 		<div v-if="recipeData">
-			<input type="text" placeholder="Recipe Name" v-model="recipeData.name"
-				style="font-size: 28pt; text-align: center; margin-bottom: 20px;"/>
+			<input type="text" placeholder="Recipe Name" v-model="recipeData.name" class="recipe-title-input" @blur="saveRecipe"/>
 			<div style="display: flex; justify-content: space-around;">
-				{{recipeData}}
+				<div class="recipe-section">
+					<h2>Ingredients</h2>
+					<div v-for="(ingred, ingredIndex) in recipeData.ingredients" :key="ingredIndex" class="ingredient-entry">
+						<input type="number" v-model.number="ingred.quantity" class="ingredient-quantity-input" placeholder="Amount" @blur="saveRecipe">
+						<input v-model="ingred.unit" class="ingredient-unit-input" placeholder="Unit" @blur="saveRecipe">
+						<input v-model="ingred.ingredient" class="ingredient-ingredient-input" placeholder="Ingredient Name" @blur="saveRecipe">
+						<br>
+						<input v-model="ingred.notes" class="ingredient-notes-input" placeholder="Notes" @blur="saveRecipe">
+					</div>
+				</div>
+				<div class="recipe-section">
+					<h2>Instructions</h2>
+					<div v-for="(instruction, instructionIndex) in recipeData.instructions" :key="instructionIndex" class="ingredient-entry">
+						{{instruction}}
+						<textarea v-model="instruction.instruction" class="instruction-instruction-textarea" placeholder="Instructions..." @blur="saveRecipe"/>
+					</div>
+
+				</div>
 			</div>
 			<div>
 				<button @click="saveRecipe">Save</button>
@@ -19,31 +35,6 @@
 import Vue from "vue"
 import * as jajax from "@/jajax"
 import * as iparser from "@/components/ingredient-parser"
-
-// From: https://www.bonappetit.com/recipe/crispy-green-rice-pilaf
-const ingredientString =
-`½ cup raw pistachios
-4 cups cilantro, mint, basil, and/or dill
-1 (or up to 3) serrano chile, stems removed, split lengthwise
-¼ cup fresh lime juice
-2 Tbsp. white miso
-½ tsp. kosher salt, plus more
-⅓ cup plus 3 Tbsp. extra-virgin olive oil
-4 cups cooked white rice, chilled overnight
-6 oz. sugar snap peas
-3 scallions
-¾ cup crumbled feta
-½ cup golden raisins
-1 cup shelled fresh peas (from about 1 lb. pods) or frozen peas, thawed`
-
-const instructionString =
-`Preheat oven to 350°. Toast pistachios on a rimmed baking sheet, tossing once, until golden brown, 5–8 minutes. Let cool, then coarsely chop.
-Meanwhile, blend herbs, one of the chiles, lime juice, miso, ½ tsp. salt, and 2 Tbsp. water in a blender on high speed until well combined. Drizzle in ⅓ cup oil and continue to blend until sauce is very smooth. Taste sauce for heat; if it seems mild, add another chile or two. It should be slightly spicier than you’re comfortable with since it’s going to get mellowed out by everything that it’s tossed with. Season with salt if needed.
-Heat remaining 3 Tbsp. oil in a large nonstick skillet over medium-high until very hot. Add rice, pressing down with a spatula in a single layer to create as much contact with surface of pan as possible. Reduce heat to medium and cook, undisturbed, until rice is deep golden brown underneath, 6–8 minutes. Season with salt.
-While rice cooks, thinly slice snap peas and scallions on a long diagonal and transfer to a medium bowl. Add pistachios, feta, and raisins and toss to combine.
-Add fresh peas to rice and continue to cook over medium heat, tossing often, until peas are just cooked through, about 2 minutes.
-Transfer rice mixture to bowl with vegetables and toss to combine. Drizzle in herb sauce, tossing again to coat well. Taste and season with salt if needed.
-`
 
 export default Vue.extend({
 	props: {
@@ -84,3 +75,45 @@ export default Vue.extend({
 	},
 })
 </script>
+
+<style>
+	.recipe-title-input{
+		font-size: 28pt;
+		text-align: center;
+		margin-bottom: 20px;
+	}
+	.recipe-section{
+		width: 45%;
+	}
+	.ingredient-entry{
+		margin: 2px 0;
+		padding: 12px;
+	}
+	.ingredient-quantity-input{
+		width: 60px;
+		text-align: center;
+	}
+	.ingredient-unit-input{
+		width: 100px;
+		text-align: center;
+	}
+	.ingredient-ingredient-input{
+		width: 240px;
+		text-align: center;
+	}
+	.ingredient-notes-input{
+		width: calc(60px + 100px + 240px);
+		text-align: center;
+		font-style: italic;
+		margin-top: 6px;
+	}
+	input[type=number]::-webkit-inner-spin-button,
+	input[type=number]::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+	.instruction-instruction-textarea {
+		width: 100%;
+		height: 100px;
+	}
+</style>

@@ -14,6 +14,13 @@ type Ingredient struct {
 	Notes      string  `bson:"notes" json:"notes"`
 }
 
+//Instruction stores data for a step in the recipe
+type Instruction struct {
+	Instruction string        `bson:"instruction" json:"instruction"`
+	Duration    time.Duration `bson:"duration" json:"duration"`
+	Optional    bool          `bson:"optional" json:"optional"`
+}
+
 //Recipe contains data regarding a recipe for a certain dish
 type Recipe struct {
 	ID           bson.ObjectId `bson:"_id,omitempty" json:"id"`
@@ -21,7 +28,7 @@ type Recipe struct {
 	Name         string        `bson:"name" json:"name"`
 	Desc         string        `bson:"desc" json:"desc"`
 	Ingredients  []Ingredient  `bson:"ingredients" json:"ingredients"`
-	Instructions []string      `bson:"instructions" json:"instructions"`
+	Instructions []Instruction `bson:"instructions" json:"instructions"`
 	ActiveTime   time.Duration `bson:"activeTime" json:"activeTime"`
 	TotalTime    time.Duration `bson:"totalTime" json:"totalTime"`
 }

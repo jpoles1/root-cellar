@@ -16,8 +16,8 @@
 				<textarea v-model=instructionString style="width: 100%; height: 220px;">
 
 				</textarea>
-				<hr>
 				{{instructionList}}
+				<hr>
 			</div>
 		</div>
 		<div>
@@ -29,6 +29,7 @@
 import Vue from "vue"
 import * as jajax from "@/jajax"
 import * as iparser from "@/components/ingredient-parser"
+import { Instruction } from "@/components/ingredient-parser/instruction"
 
 // From: https://www.bonappetit.com/recipe/crispy-green-rice-pilaf
 const ingredientString =
@@ -94,10 +95,14 @@ export default Vue.extend({
 			let ingredientList = ingredientStringList.map((x) => iparser.parse(x))
 			return ingredientList
 		},
-		instructionList(): string[] {
+		instructionList(): Instruction[] {
 			let instructionList = this.instructionString.split("\n")
 				.map((x) => x.trim())
 				.filter((x) => x.length > 0)
+				.map((x) => ({
+					"instruction": x,
+					"optional": false,
+				}) as Instruction)
 			return instructionList
 		},
 

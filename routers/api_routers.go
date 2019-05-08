@@ -22,7 +22,7 @@ func APIRouter(r chi.Router, apiHandler APIHandler) chi.Router {
 				r.Get("/new", apiHandler.GetNewRecipeID)
 				r.Post("/import", apiHandler.PostImportRecipe)
 				r.Get("/{recipeID}", apiHandler.GetRecipeByID)
-				//r.Post("/{recipeID}/update", apiHandler.PostUpdateRecipe)
+				r.Post("/{recipeID}/update", apiHandler.PostUpdateRecipe)
 			})
 		})
 	})

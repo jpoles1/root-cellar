@@ -31,9 +31,9 @@ func (mc *MongoController) SessionClone() (sesh *mgo.Session, err error) {
 //EnsureCollectionIndex enforces indexes on the various MongoDB collections
 func (mc *MongoController) EnsureCollectionIndex(collectionName string) (c *mgo.Collection, err error) {
 	var index mgo.Index
-	if collectionName == "cases" {
+	if collectionName == "recipes" {
 		index = mgo.Index{
-			Key: []string{"$text:title", "$text:description"},
+			Key: []string{"$text:name", "$text:desc"},
 		}
 	}
 	sesh, err := mc.SessionClone()
