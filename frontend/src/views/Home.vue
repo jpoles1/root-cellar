@@ -1,6 +1,7 @@
 <template>
 	<div class="home">
 		<h1>Welcome to Root Cellar</h1>
+		<hr style="margin: 20px 0;">
 		<RecipeCreator/>
 	</div>
 </template>

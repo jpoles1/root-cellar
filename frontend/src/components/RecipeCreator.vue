@@ -1,7 +1,8 @@
 <template>
 	<div>
-		<button @click="createRecipe">Create New Recipe</button>
-			{{$store.state.jwtClaims}}
+		<v-btn @click="createRecipe" color="blue-grey lighten-1" dark>
+			Create New Recipe
+		</v-btn>
 	</div>
 </template>
 <script lang="ts">
