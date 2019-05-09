@@ -17,6 +17,7 @@ module.exports = {
     'space-before-function-paren': 'off',
     'comma-dangle': ["error", "always-multiline"],
     'quotes': ["error", "double"],
+    'camelcase': "error",
   },
   parserOptions: {
     parser: '@typescript-eslint/parser'
