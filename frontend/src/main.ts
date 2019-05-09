@@ -6,9 +6,15 @@ import "./registerServiceWorker"
 
 import "vuetify/dist/vuetify.min.css"
 
-import Vuetify from "vuetify" // Import Vuetify to your project
+import Vuetify from "vuetify"
+import VuetifyToast from "vuetify-toast-snackbar"
 
-Vue.use(Vuetify) // Add Vuetify as a plugin
+Vue.use(Vuetify)
+Vue.use(VuetifyToast, {
+	x: "left",
+	timeout: 1500,
+	color: "#004D40", // teal darken-4
+})
 
 Vue.config.productionTip = false
 
