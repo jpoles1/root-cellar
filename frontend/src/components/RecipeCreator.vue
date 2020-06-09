@@ -20,7 +20,7 @@ export default Vue.extend({
 					}
 				})
 				.catch((err) => {
-					console.log(err)
+					this.$toast(`Failed to create recipe (Err Code: ${err.respCode})`, { color: "#d98303" })
 				})
 		},
 	},

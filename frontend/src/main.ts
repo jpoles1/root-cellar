@@ -12,7 +12,7 @@ import VuetifyToast from "vuetify-toast-snackbar"
 Vue.use(Vuetify)
 Vue.use(VuetifyToast, {
 	x: "left",
-	timeout: 1500,
+	timeout: 2500,
 	color: "#004D40", // teal darken-4
 })
 
