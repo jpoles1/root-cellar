@@ -6,24 +6,24 @@ export function getJSON(url: string, authToken: string | undefined): Promise<any
 	return jsonRequestPromise(url, "GET", undefined, authToken)
 }
 
-export function jsonRequestPromise(url: string, method: string, payload: Object | undefined, authToken: string | undefined): Promise<[number, string]> {
-	return new Promise(function (resolve, reject) {
-		var xhr = new XMLHttpRequest()
+export function jsonRequestPromise(url: string, method: string, payload: object | undefined, authToken: string | undefined): Promise<[number, string]> {
+	return new Promise((resolve, reject) => {
+		const xhr = new XMLHttpRequest()
 		if (authToken) {
 			if (!url.includes("?")) url += "?"
 			url += "&jwt=" + authToken
 		}
 		xhr.open(method, url, true)
 		if (payload) {
-			let payloadString = JSON.stringify(payload)
+			const payloadString = JSON.stringify(payload)
 			xhr.send(payloadString)
 		} else {
 			xhr.send()
 		}
-		xhr.onerror = function () {
+		xhr.onerror = () => {
 			throw Object({ "respCode": 0, "msg": "Could not connect to server!" })
 		}
-		xhr.onreadystatechange = function () {
+		xhr.onreadystatechange = () => {
 			if (xhr.readyState === 4) {
 				if (xhr.status === 401) {
 					window.location.href = "/login?source=" + encodeURIComponent(window.location.href)
@@ -36,12 +36,12 @@ export function jsonRequestPromise(url: string, method: string, payload: Object 
 				}
 				if (xhr.status === 200) {
 					// xhr finished successfully
-					var resp = xhr.responseText
-					var respJson = JSON.parse(resp)
+					const resp = xhr.responseText
+					const respJson = JSON.parse(resp)
 					resolve(respJson)
 				} else {
 					// xhr failed
-					throw Object({ "respCode": xhr.status, "msg": xhr.responseText })
+					reject(Object({ "respCode": xhr.status, "msg": xhr.responseText }))
 				}
 			}
 		}
