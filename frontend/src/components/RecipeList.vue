@@ -1,5 +1,5 @@
 <template>
-    <div style="display: flex; justify-content: flex-start; flex-wrap: wrap;">
+    <div style="display: flex; justify-content: center; flex-wrap: wrap;">
 		<v-card v-for="(recipe, recipeIndex) in recipeList" :key="recipeIndex" style="margin: 20px 14px; width: 220px; cursor: pointer;" @click="$router.push(`/recipe/${recipe.id}/edit`)">
 			<h2>{{recipe.name}}</h2>
 			Active Time: {{format_dt(recipe.active_time)}}

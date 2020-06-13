@@ -3,25 +3,20 @@
 		<input type="text" placeholder="Recipe Name" v-model="name"
 			style="font-size: 28pt; text-align: center; margin-bottom: 20px;"/>
 		<div style="display: flex; justify-content: space-around;">
-			<div style="width: 45%;">
+			<div class="recipe-section">
 				<h2>Ingredients:</h2>
-				<textarea v-model=ingredientString style="width: 100%; height: 220px;">
-
-				</textarea>
-				<hr>
-				{{ingredientList}}
+				<textarea v-model=ingredient_string style="width: 100%; height: 220px;"/>
 			</div>
-			<div style="width: 45%;">
+			<div class="recipe-section">
 				<h2>Instructions:</h2>
-				<textarea v-model=instructionString style="width: 100%; height: 220px;">
+				<textarea v-model=instruction_string style="width: 100%; height: 220px;">
 
 				</textarea>
-				{{instructionList}}
-				<hr>
 			</div>
 		</div>
+		<RecipeViewer :recipe=recipe_preview />
 		<div>
-			<button @click="saveRecipe">Save</button>
+			<v-btn class="primary" @click="save_recipe">Save</v-btn>
 		</div>
 	</div>
 </template>
@@ -30,9 +25,10 @@ import Vue from "vue"
 import * as jajax from "@/jajax"
 import * as iparser from "@/components/ingredient-parser"
 import { Instruction } from "@/components/ingredient-parser/instruction"
+import RecipeViewer from "@/components/RecipeViewer.vue"
 
 // From: https://www.bonappetit.com/recipe/crispy-green-rice-pilaf
-const ingredientString =
+const ingredient_string =
 `½ cup raw pistachios
 4 cups cilantro, mint, basil, and/or dill
 1 serrano chile, (or up to 3, stems removed, split lengthwise)
@@ -47,7 +43,7 @@ const ingredientString =
 ½ cup golden raisins
 1 cup shelled fresh peas (from about 1 lb. pods or frozen peas, thawed)`
 
-const instructionString =
+const instruction_string =
 `Preheat oven to 350°. Toast pistachios on a rimmed baking sheet, tossing once, until golden brown, 5–8 minutes. Let cool, then coarsely chop.
 Meanwhile, blend herbs, one of the chiles, lime juice, miso, ½ tsp. salt, and 2 Tbsp. water in a blender on high speed until well combined. Drizzle in ⅓ cup oil and continue to blend until sauce is very smooth. Taste sauce for heat; if it seems mild, add another chile or two. It should be slightly spicier than you’re comfortable with since it’s going to get mellowed out by everything that it’s tossed with. Season with salt if needed.
 Heat remaining 3 Tbsp. oil in a large nonstick skillet over medium-high until very hot. Add rice, pressing down with a spatula in a single layer to create as much contact with surface of pan as possible. Reduce heat to medium and cook, undisturbed, until rice is deep golden brown underneath, 6–8 minutes. Season with salt.
@@ -57,6 +53,9 @@ Transfer rice mixture to bowl with vegetables and toss to combine. Drizzle in he
 `
 
 export default Vue.extend({
+	components: {
+		RecipeViewer,
+	},
 	props: {
 		recipeID: {
 			type: String,
@@ -64,20 +63,15 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			"name": "",
+			"name": "Untitled Recipe",
 			"desc": "",
-			"ingredientString": ingredientString,
-			"instructionString": instructionString,
+			"ingredient_string": ingredient_string,
+			"instruction_string": instruction_string,
 		}
 	},
 	methods: {
-		saveRecipe() {
-			let recipeData = {
-				"name": this.name,
-				"desc": this.desc,
-				"ingredients": this.ingredientList,
-				"instructions": this.instructionList,
-			}
+		save_recipe() {
+			let recipeData = this.recipe_preview
 			let url = this.$store.state.api_url + "/recipe/import"
 			jajax.postJSON(url, recipeData, this.$store.state.jwt_token)
 				.then(function (resp) {
@@ -88,22 +82,30 @@ export default Vue.extend({
 		},
 	},
 	computed: {
-		ingredientList(): iparser.Ingredient[] {
-			let ingredientStringList = this.ingredientString.split("\n")
+		recipe_preview(): Object {
+			return {
+				"name": this.name,
+				"desc": this.desc,
+				"ingredients": this.ingredient_list,
+				"instructions": this.instruction_list,
+			}
+		},
+		ingredient_list(): iparser.Ingredient[] {
+			let ingredient_stringList = this.ingredient_string.split("\n")
 				.map((x) => x.trim())
 				.filter((x) => x.length > 0)
-			let ingredientList = ingredientStringList.map((x) => iparser.parse(x))
-			return ingredientList
+			let ingredient_list = ingredient_stringList.map((x) => iparser.parse(x))
+			return ingredient_list
 		},
-		instructionList(): Instruction[] {
-			let instructionList = this.instructionString.split("\n")
+		instruction_list(): Instruction[] {
+			let instruction_list = this.instruction_string.split("\n")
 				.map((x) => x.trim())
 				.filter((x) => x.length > 0)
 				.map((x) => ({
 					"instruction": x,
 					"optional": false,
 				}) as Instruction)
-			return instructionList
+			return instruction_list
 		},
 
 	},

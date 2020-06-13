@@ -25,9 +25,9 @@
 						<div class="instruction-order">
 							<b>#</b>
 							<input type="number" min=1 :value="instructionIndex + 1" class="instruction-order-input"
-							@input="rearrange_instructions(instructionIndex, $event)" v-on:keyup.delete="(e) => check_empty_instruction(e, instructionIndex)">
+							@input="rearrange_instructions(instructionIndex, $event)">
 						</div>
-						<textarea v-model="instruction.instruction" class="instruction-instruction-textarea" placeholder="Instructions..."/>
+						<textarea v-model="instruction.instruction" class="instruction-instruction-textarea" placeholder="Instructions..." v-on:keyup.delete="(e) => check_empty_instruction(e, instructionIndex)"/>
 					</div>
 					<v-btn @click="add_instruction" class="raised">
 						Add Instruction
@@ -77,7 +77,7 @@ export default Vue.extend({
 			})
 		},
 		add_instruction() {
-			this.recipe.Instructions.push({
+			this.recipe.instructions.push({
 				instruction: "",
 				optional: false,
 			})
