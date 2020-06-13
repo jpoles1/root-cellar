@@ -12,8 +12,8 @@ import * as jajax from "@/jajax"
 export default Vue.extend({
 	methods: {
 		createRecipe() {
-			let url = this.$store.state.apiURL + "/recipe/new"
-			jajax.getJSON(url, this.$store.state.jwtToken)
+			let url = this.$store.state.api_url + "/recipe/new"
+			jajax.getJSON(url, this.$store.state.jwt_token)
 				.then((resp) => {
 					if (resp.recipeID) {
 						window.location.href = "/recipe/" + resp.recipeID + "/edit"

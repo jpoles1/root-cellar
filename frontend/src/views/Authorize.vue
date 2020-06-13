@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Logging in...</h2>
-        <!--<br><br>
+        <br><br>
         <md-progress-spinner
             v-if="serverError == undefined"
             :md-diameter="60"
@@ -13,7 +13,7 @@
             md-icon="error"
             :md-label="'Server Error: ' + serverError"
             md-description="Failed to login, redirecting...">
-        </md-empty-state>-->
+        </md-empty-state>
     </div>
 </template>
 
@@ -37,15 +37,15 @@ export default Vue.extend({
 			var urlParams = this.$route.query
 			var url
 			if (!(urlParams.state && urlParams.code)) {
-				window.location.href = this.$store.state.apiURL + "/auth/" + this.provider
+				window.location.href = this.$store.state.api_url + "/auth/" + this.provider
 				return
 			}
-			url = this.$store.state.apiURL + "/auth/" + this.provider + "/callback"
+			url = this.$store.state.api_url + "/auth/" + this.provider + "/callback"
 			url += "?state=" + encodeURIComponent(urlParams.state as string)
 			url += "&code=" + encodeURIComponent(urlParams.code as string)
 
 			jajax.getJSON(url, undefined).then((data) => {
-				this.$store.commit("setJWTToken", data.token)
+				this.$store.commit("set_JWT_token", data.token)
 				// Redirect after login
 				if (urlParams.source) {
 					var authSource = (urlParams.source as string).replace(/~~/g, "?").replace(/~/g, "&")
@@ -56,7 +56,7 @@ export default Vue.extend({
 			}).catch(([xhrStatus]) => {
 				this.serverError = xhrStatus
 				setTimeout(() => {
-					window.location.href = this.$store.state.apiURL + "/auth/" + this.provider
+					window.location.href = this.$store.state.api_url + "/auth/" + this.provider
 				}, 1500)
 			})
 		})

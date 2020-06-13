@@ -1,32 +1,42 @@
 <template>
 	<div>
-		<div v-if="recipeData">
-			<input type="text" placeholder="Recipe Name" v-model="recipeData.name" class="recipe-title-input" @blur="recipeUpdate"/>
-			<div style="display: flex; justify-content: space-around;">
+		<div v-if="recipe">
+			<input type="text" placeholder="Recipe Name" v-model="recipe.name" class="recipe-title-input"/>
+			<br>
+			<!--Active Time: <DurationInput v-model="recipe.active_time" />
+			<input type="text" placeholder="Active Time" v-model="recipe.active_time" style="width: 140px; padding-left: 10px; font-size: 80%;"/>-->
+			<div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
 				<div class="recipe-section">
 					<h2>Ingredients</h2>
-					<div v-for="(ingred, ingredIndex) in recipeData.ingredients" :key="ingredIndex" class="ingredient-entry">
-						<input type="number" v-model.number="ingred.quantity" class="ingredient-quantity-input" placeholder="Amount" @blur="recipeUpdate">
-						<input v-model="ingred.unit" class="ingredient-unit-input" placeholder="Unit" @blur="recipeUpdate">
-						<input v-model="ingred.ingredient" class="ingredient-ingredient-input" placeholder="Ingredient Name" @blur="recipeUpdate">
+					<div v-for="(ingred, ingredIndex) in recipe.ingredients" :key="ingredIndex" class="ingredient-entry">
+						<input type="number" v-model.number="ingred.quantity" class="ingredient-quantity-input" placeholder="Amount">
+						<input v-model="ingred.unit" class="ingredient-unit-input" placeholder="Unit">
+						<input v-model="ingred.ingredient" class="ingredient-ingredient-input" placeholder="Ingredient Name (backspace to clear)" v-on:keyup.delete="(e) => check_empty_ingredient(e, ingredIndex)">
 						<br>
-						<input v-model="ingred.notes" class="ingredient-notes-input" placeholder="Notes" @blur="recipeUpdate">
+						<input v-model="ingred.notes" class="ingredient-notes-input" placeholder="Notes">
 					</div>
+					<v-btn @click="add_ingredient" class="raised">
+						Add Ingredient
+					</v-btn>
 				</div>
 				<div class="recipe-section">
 					<h2>Instructions</h2>
-					<div v-for="(instruction, instructionIndex) in recipeData.instructions" :key="instructionIndex" class="ingredient-entry">
+					<div v-for="(instruction, instructionIndex) in recipe.instructions" :key="instructionIndex" class="ingredient-entry">
 						<div class="instruction-order">
 							<b>#</b>
 							<input type="number" min=1 :value="instructionIndex + 1" class="instruction-order-input"
-							@input="rearrangeInstructions(instructionIndex, $event)">
+							@input="rearrange_instructions(instructionIndex, $event)" v-on:keyup.delete="(e) => check_empty_instruction(e, instructionIndex)">
 						</div>
-						<textarea v-model="instruction.instruction" class="instruction-instruction-textarea" placeholder="Instructions..." @blur="recipeUpdate"/>
+						<textarea v-model="instruction.instruction" class="instruction-instruction-textarea" placeholder="Instructions..."/>
 					</div>
+					<v-btn @click="add_instruction" class="raised">
+						Add Instruction
+					</v-btn>
+
 				</div>
 			</div>
 			<div>
-				<v-btn @click="saveRecipe" color="teal darker-4" dark>Save</v-btn>
+				<v-btn @click="save_recipe" color="teal darker-4" dark>Save</v-btn>
 			</div>
 		</div>
 		<div v-else>
@@ -36,10 +46,16 @@
 </template>
 <script lang="ts">
 import Vue from "vue"
+import DurationInput from "@/components/DurationInput.vue"
 import * as jajax from "@/jajax"
 import * as iparser from "@/components/ingredient-parser"
+import moment from "moment"
+import parse_duration from "parse-duration"
 
 export default Vue.extend({
+	components: {
+		DurationInput,
+	},
 	props: {
 		recipeID: {
 			type: String,
@@ -47,52 +63,85 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			recipeData: undefined as any,
+			recipe: undefined as any,
 			saveTimeout: undefined as any,
 		}
 	},
 	methods: {
-		rearrangeInstructions(oldIndex: number, event: any) {
-			let newIndex = parseInt(event.target.value)
-			if (isNaN(newIndex)) return
-			newIndex--
-			if (this.recipeData === undefined) return
-			// Blur input
-			event.target.blur()
-			// Rearranges instruction array
-			this.recipeData!.instructions.splice(newIndex, 0, this.recipeData!.instructions.splice(oldIndex, 1)[0])
-			// Save updates
-			this.recipeUpdate()
+		add_ingredient() {
+			this.recipe.ingredients.push({
+				ingredient: "",
+				quantity: 0,
+				unit: "",
+				notes: "",
+			})
 		},
-		recipeUpdate() {
-			clearTimeout(this.saveTimeout)
-			this.saveTimeout = setTimeout(this.saveRecipe, 2 * 1000)
+		add_instruction() {
+			this.recipe.Instructions.push({
+				instruction: "",
+				optional: false,
+			})
 		},
-		saveRecipe() {
-			let url = this.$store.state.apiURL + "/recipe/" + this.recipeID + "/update"
-			jajax.postJSON(url, this.recipeData, this.$store.state.jwtToken)
+		check_empty_ingredient(e: any, ingredientIndex: number) {
+			if (e.target.value === "") {
+				this.recipe.ingredients.splice(ingredientIndex, 1)
+			}
+		},
+		check_empty_instruction(e: any, instructionIndex: number) {
+			if (e.target.value === "") {
+				this.recipe.instructions.splice(instructionIndex, 1)
+			}
+		},
+		fetch_recipe() {
+			let url = this.$store.state.api_url + "/recipe/" + this.recipeID
+			jajax.getJSON(url, this.$store.state.jwt_token)
 				.then((resp) => {
-					this.$toast("Recipe Saved!")
-				})
-		},
-	},
-	computed: {
-
-	},
-	mounted() {
-		this.$nextTick(() => {
-			let url = this.$store.state.apiURL + "/recipe/" + this.recipeID
-			jajax.getJSON(url, this.$store.state.jwtToken)
-				.then((resp) => {
-					if (resp!.uid! !== this.$store.state.jwtClaims["id"]) {
+					if (resp!.uid! !== this.$store.state.jwt_claims["id"]) {
 						window.location.href = "/"
 						return
 					}
-					this.recipeData = resp
+					this.recipe = resp
+				}).catch((err) => {
+					this.$toast(`Failed to fetch recipe data (Err Code: ${err.respCode})`, { color: "#d98303" })
 				})
-				.catch((err) => {
-					console.log(err)
+		},
+		rearrange_instructions(oldIndex: number, event: any) {
+			let newIndex = parseInt(event.target.value)
+			if (isNaN(newIndex)) return
+			newIndex--
+			if (this.recipe === undefined) return
+			// Blur input
+			event.target.blur()
+			// Rearranges instruction array
+			this.recipe!.instructions.splice(newIndex, 0, this.recipe!.instructions.splice(oldIndex, 1)[0])
+			// Save updates
+			this.recipe_update()
+		},
+		recipe_update() {
+			clearTimeout(this.saveTimeout)
+			this.saveTimeout = setTimeout(this.save_recipe, 5 * 1000)
+		},
+		save_recipe() {
+			let url = this.$store.state.api_url + "/recipe/" + this.recipeID + "/update"
+			jajax.postJSON(url, this.recipe, this.$store.state.jwt_token)
+				.then((resp) => {
+					this.$toast("Recipe Saved!")
+				}).catch((err) => {
+					this.$toast(`Failed to save recipe (Err Code: ${err.respCode})`, { color: "#d98303" })
 				})
+		},
+	},
+	watch: {
+		recipe: {
+			handler() {
+				this.recipe_update()
+			},
+			deep: true,
+		},
+	},
+	mounted() {
+		this.$nextTick(() => {
+			this.fetch_recipe()
 		})
 	},
 })
@@ -106,6 +155,8 @@ export default Vue.extend({
 	}
 	.recipe-section{
 		width: 45%;
+		min-width: 450px;
+		margin-bottom: 20px;
 	}
 	.ingredient-entry{
 		margin: 2px 0;
@@ -120,7 +171,7 @@ export default Vue.extend({
 		text-align: center;
 	}
 	.ingredient-ingredient-input{
-		width: 240px;
+		width: 280px;
 		text-align: center;
 	}
 	.instruction-order{
@@ -137,7 +188,7 @@ export default Vue.extend({
 		border: none !important;
 	}
 	.ingredient-notes-input{
-		width: calc(60px + 100px + 240px);
+		width: calc(60px + 100px + 280px);
 		text-align: center;
 		font-style: italic;
 		margin-top: 6px;

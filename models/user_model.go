@@ -12,8 +12,8 @@ type User struct {
 	Username     string        `bson:"uname" json:"uname"`
 	FullName     string        `bson:"fullName" json:"fullName"`
 	Email        string        `bson:"email" json:"email"`
-	AuthProvider string        `bson:"authProvider" json:"authProvider"`
-	IsAdmin      bool          `bson:"isAdmin" json:"isAdmin"`
-	IsOwner      bool          `bson:"isOwner" json:"isOwner"`
-	AcceptedTOS  bool          `bson:"acceptedTOS" json:"acceptedTOS"`
+	AuthProvider string        `bson:"authProvider" json:"auth_provider"`
+	IsAdmin      bool          `bson:"isAdmin" json:"is_admin"`
+	IsOwner      bool          `bson:"isOwner" json:"is_owner"`
+	AcceptedTOS  bool          `bson:"acceptedTOS" json:"accepted_tos"`
 }

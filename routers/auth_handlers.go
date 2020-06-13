@@ -99,7 +99,7 @@ func (h APIHandler) authRegistration(w http.ResponseWriter, authProvider string,
 		"isAdmin":      userInfo.IsAdmin,
 		"isOwner":      userInfo.IsOwner,
 		"acceptedTOS":  userInfo.AcceptedTOS,
-	}.SetExpiryIn(3 * (time.Hour * 24)).SetIssuedNow()
+	}.SetExpiryIn(3 * (time.Hour * 24 * 7)).SetIssuedNow()
 	_, tokenString, _ := jwtAuthConfig.Encode(claims)
 	if tokenString != "" {
 		w.Write([]byte("{\"token\": \"" + tokenString + "\"}"))

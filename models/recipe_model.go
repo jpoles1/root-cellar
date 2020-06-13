@@ -29,6 +29,7 @@ type Recipe struct {
 	Desc         string        `bson:"desc" json:"desc"`
 	Ingredients  []Ingredient  `bson:"ingredients" json:"ingredients"`
 	Instructions []Instruction `bson:"instructions" json:"instructions"`
-	ActiveTime   time.Duration `bson:"activeTime" json:"activeTime"`
-	TotalTime    time.Duration `bson:"totalTime" json:"totalTime"`
+	ActiveTime   time.Duration `bson:"activeTime" json:"active_time"`
+	TotalTime    time.Duration `bson:"totalTime" json:"total_time"`
+	URL          string        `bson:"url" json:"url"`
 }

@@ -19,6 +19,7 @@ func APIRouter(r chi.Router, apiHandler APIHandler) chi.Router {
 		r.Group(func(r chi.Router) {
 			//r.Use(apiHandler.TOSWall)
 			r.Route("/recipe/", func(r chi.Router) {
+				r.Get("/list", apiHandler.GetMyRecipeList)
 				r.Get("/new", apiHandler.GetNewRecipeID)
 				r.Post("/import", apiHandler.PostImportRecipe)
 				r.Get("/{recipeID}", apiHandler.GetRecipeByID)

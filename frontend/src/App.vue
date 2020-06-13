@@ -49,17 +49,17 @@ export default Vue.extend({
 		navEntries: function() {
 			return [
 				{ navText: "Home", navIcon: "home", navURL: "/" },
-				{ navText: "Import", navIcon: "photo_camera", navURL: "/recipe/import", hideEntry: !this.$store.state.jwtToken },
-				{ navText: "Settings", navIcon: "settings_applications", navURL: "/settings/", hideEntry: !this.$store.state.jwtToken },
-				{ navText: "Admin", navIcon: "dvr", navURL: "/admin/", hideEntry: !this.$store.state.jwtClaims.isAdmin },
-				{ navText: "Login", navIcon: "vpn_key", navURL: "/login", hideEntry: this.$store.state.jwtToken },
-				{ navText: "Logout", navIcon: "exit_to_app", navURL: "/logout", hideEntry: !this.$store.state.jwtToken },
+				{ navText: "Import", navIcon: "photo_camera", navURL: "/recipe/import", hideEntry: !this.$store.state.jwt_token },
+				{ navText: "Settings", navIcon: "settings_applications", navURL: "/settings/", hideEntry: !this.$store.state.jwt_token },
+				{ navText: "Admin", navIcon: "dvr", navURL: "/admin/", hideEntry: !this.$store.state.jwt_claims.is_admin },
+				{ navText: "Login", navIcon: "vpn_key", navURL: "/login", hideEntry: this.$store.state.jwt_token },
+				{ navText: "Logout", navIcon: "exit_to_app", navURL: "/logout", hideEntry: !this.$store.state.jwt_token },
 			]
 		},
 	},
 	mounted() {
 		if (window.location.host === "127.0.0.1:8080") {
-			this.$store.commit("setLocalAPI")
+			this.$store.commit("set_local_api")
 		}
 	},
 })

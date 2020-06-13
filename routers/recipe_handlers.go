@@ -29,6 +29,20 @@ func (h APIHandler) PostFetchRecipeList(w http.ResponseWriter, r *http.Request) 
 	sendResponseJSON(w, recipeList)
 }
 
+//GetMyRecipeList retrieves a list of all recipes owned by a user
+func (h APIHandler) GetMyRecipeList(w http.ResponseWriter, r *http.Request) {
+	_, claims, _ := jwtauth.FromContext(r.Context())
+	userID := bson.ObjectIdHex(claims["id"].(string))
+	recipeList, ce := h.Controller.RecipeSearch(bson.M{
+		"uid": userID,
+	})
+	if ce.HasErrors() {
+		handleControllerErrors(w, 500, "Failed to retrieve recipe list", ce)
+		return
+	}
+	sendResponseJSON(w, recipeList)
+}
+
 //GetNewRecipeID handles a request to GET the ID for a newly created recipe
 func (h APIHandler) GetNewRecipeID(w http.ResponseWriter, r *http.Request) {
 	_, claims, _ := jwtauth.FromContext(r.Context())
@@ -36,6 +50,7 @@ func (h APIHandler) GetNewRecipeID(w http.ResponseWriter, r *http.Request) {
 	recipeData := models.Recipe{
 		ID:     newRecipeID,
 		UserID: bson.ObjectIdHex(claims["id"].(string)),
+		Name:   "Untitled Recipe",
 	}
 	ce := h.Controller.UpsertRecipe(recipeData)
 	if ce.HasErrors() {

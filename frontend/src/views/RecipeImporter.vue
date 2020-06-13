@@ -78,8 +78,8 @@ export default Vue.extend({
 				"ingredients": this.ingredientList,
 				"instructions": this.instructionList,
 			}
-			let url = this.$store.state.apiURL + "/recipe/import"
-			jajax.postJSON(url, recipeData, this.$store.state.jwtToken)
+			let url = this.$store.state.api_url + "/recipe/import"
+			jajax.postJSON(url, recipeData, this.$store.state.jwt_token)
 				.then(function (resp) {
 					if (resp.recipeID) {
 						window.location.href = "/recipe/" + resp.recipeID + "/edit"

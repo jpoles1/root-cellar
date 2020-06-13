@@ -7,20 +7,20 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
-		apiURL: "",
-		jwtToken: undefined,
-		jwtClaims: {},
+		api_url: "",
+		jwt_token: undefined,
+		jwt_claims: {},
 	},
 	mutations: {
-		setLocalAPI (state) {
-			state.apiURL = "http://127.0.0.1:3005/api"
+		set_local_api (state) {
+			state.api_url = "http://127.0.0.1:3005/api"
 		},
-		setJWTToken (state, newToken) {
-			state.jwtToken = newToken
+		set_JWT_token (state, new_token) {
+			state.jwt_token = new_token
 			try {
-				state.jwtClaims = jwtDecode(newToken)
+				state.jwt_claims = jwtDecode(new_token)
 			} catch {
-				state.jwtClaims = {}
+				state.jwt_claims = {}
 			}
 		},
 	},
