@@ -5,7 +5,7 @@ export const units = {
 	pint: ["pt", "pts", "pt."],
 	pound: ["lb", "lb.", "lbs", "lbs.", "Lb", "Lbs"],
 	quart: ["qt", "qt.", "qts", "qts."],
-	tablespoon: ["tbs", "tbsp", "tbsp.", "Tbsp.", "tbspn", "T", "T.", "Tablespoons", "Tablespoon"],
+	tablespoon: ["tbs", "tbsp", "tbsp.", "Tbsp.", "Tbsp", "tbspn", "T", "T.", "Tablespoons", "Tablespoon"],
 	teaspoon: ["tsp", "tspn", "tsp.", "Tsp.", "tspn.", "Tspn.", "t", "t."],
 	gram: ["g", "g."],
 	kilogram: ["kg", "kg.", "Kg", "Kg."],
