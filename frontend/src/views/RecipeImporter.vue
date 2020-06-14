@@ -14,7 +14,19 @@
 				</textarea>
 			</div>
 		</div>
-		<RecipeViewer :recipe=recipe_preview />
+		<v-expansion-panel>
+			<v-expansion-panel-content>
+				<template v-slot:header>
+				<div>Preview Recipe</div>
+				</template>
+				<v-card>
+					<v-card-text class="grey lighten-4">
+						<RecipeViewer :recipe=recipe_preview />
+					</v-card-text>
+				</v-card>
+			</v-expansion-panel-content>
+		</v-expansion-panel>
+		<br>
 		<div>
 			<v-btn class="primary" @click="save_recipe">Save</v-btn>
 		</div>
