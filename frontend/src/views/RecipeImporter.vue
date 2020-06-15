@@ -100,6 +100,8 @@ export default Vue.extend({
 				"desc": this.desc,
 				"ingredients": this.ingredient_list,
 				"instructions": this.instruction_list,
+				"archived": false,
+				"last_updated": Date.now(),
 			}
 		},
 		ingredient_list(): iparser.Ingredient[] {

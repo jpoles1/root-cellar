@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"root-cellar/models"
+	"time"
 
 	"github.com/globalsign/mgo/bson"
 	"github.com/go-chi/chi"
@@ -48,9 +49,11 @@ func (h APIHandler) GetNewRecipeID(w http.ResponseWriter, r *http.Request) {
 	_, claims, _ := jwtauth.FromContext(r.Context())
 	newRecipeID := bson.NewObjectId()
 	recipeData := models.Recipe{
-		ID:     newRecipeID,
-		UserID: bson.ObjectIdHex(claims["id"].(string)),
-		Name:   "Untitled Recipe",
+		ID:          newRecipeID,
+		UserID:      bson.ObjectIdHex(claims["id"].(string)),
+		Name:        "Untitled Recipe",
+		Archived:    false,
+		LastUpdated: time.Now(),
 	}
 	ce := h.Controller.UpsertRecipe(recipeData)
 	if ce.HasErrors() {

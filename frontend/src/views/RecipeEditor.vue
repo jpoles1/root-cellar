@@ -122,6 +122,7 @@ export default Vue.extend({
 			this.saveTimeout = setTimeout(this.save_recipe, 5 * 1000)
 		},
 		save_recipe() {
+			this.recipe.last_updated = Date.now()
 			let url = this.$store.state.api_url + "/recipe/" + this.recipeID + "/update"
 			jajax.postJSON(url, this.recipe, this.$store.state.jwt_token)
 				.then((resp) => {

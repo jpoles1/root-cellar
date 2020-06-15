@@ -25,6 +25,8 @@ type Instruction struct {
 type Recipe struct {
 	ID           bson.ObjectId `bson:"_id,omitempty" json:"id"`
 	UserID       bson.ObjectId `bson:"uid" json:"uid"`
+	OriginalID   bson.ObjectId `bson:"og_id" json:"og_id"`
+	ParentID     bson.ObjectId `bson:"parent_id" json:"parent_id"`
 	Name         string        `bson:"name" json:"name"`
 	Desc         string        `bson:"desc" json:"desc"`
 	Ingredients  []Ingredient  `bson:"ingredients" json:"ingredients"`
@@ -32,4 +34,6 @@ type Recipe struct {
 	ActiveTime   time.Duration `bson:"activeTime" json:"active_time"`
 	TotalTime    time.Duration `bson:"totalTime" json:"total_time"`
 	URL          string        `bson:"url" json:"url"`
+	Archived     bool          `bson:"archived" json:"archived"`
+	LastUpdated  time.Time     `bson:"last_updated" json:"last_updated"`
 }
