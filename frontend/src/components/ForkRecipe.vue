@@ -1,12 +1,12 @@
 <template>
-    <div>
-        <v-btn @click="fork">
+    <span>
+        <v-btn @click="fork" small>
             <v-icon>
                 call_split
             </v-icon>
-            &nbsp;&nbsp;Fork Recipe
+            &nbsp;&nbsp;Fork
         </v-btn>
-    </div>
+    </span>
 </template>
 
 <script lang="ts">
