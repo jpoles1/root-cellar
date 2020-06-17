@@ -7,7 +7,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
-		api_url: "",
+		api_url: "/api",
 		jwt_token: undefined,
 		jwt_claims: {},
 	},
