@@ -3,6 +3,7 @@
 		<div v-if="recipe">
 			<input type="text" placeholder="Recipe Name" v-model="recipe.name" class="recipe-title-input"/>
 			<br>
+			<ForkRecipe :recipeID="recipeID"/>
 			<!--Active Time: <DurationInput v-model="recipe.active_time" />
 			<input type="text" placeholder="Active Time" v-model="recipe.active_time" style="width: 140px; padding-left: 10px; font-size: 80%;"/>-->
 			<div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
@@ -47,13 +48,14 @@
 <script lang="ts">
 import Vue from "vue"
 import DurationInput from "@/components/DurationInput.vue"
+import ForkRecipe from "@/components/ForkRecipe.vue"
 import * as jajax from "@/jajax"
-import * as iparser from "@/components/ingredient-parser"
-import moment from "moment"
+import moment, { updateLocale } from "moment"
 import parse_duration from "parse-duration"
 
 export default Vue.extend({
 	components: {
+		ForkRecipe,
 		DurationInput,
 	},
 	props: {
@@ -122,9 +124,10 @@ export default Vue.extend({
 			this.saveTimeout = setTimeout(this.save_recipe, 5 * 1000)
 		},
 		save_recipe() {
-			this.recipe.last_updated = Date.now()
+			let updatedRecipe = JSON.parse(JSON.stringify(this.recipe))
+			updatedRecipe.last_updated = new Date().toJSON()
 			let url = this.$store.state.api_url + "/recipe/" + this.recipeID + "/update"
-			jajax.postJSON(url, this.recipe, this.$store.state.jwt_token)
+			jajax.postJSON(url, updatedRecipe, this.$store.state.jwt_token)
 				.then((resp) => {
 					this.$toast("Recipe Saved!")
 				}).catch((err) => {

@@ -49,11 +49,16 @@ func (h APIHandler) GetNewRecipeID(w http.ResponseWriter, r *http.Request) {
 	_, claims, _ := jwtauth.FromContext(r.Context())
 	newRecipeID := bson.NewObjectId()
 	recipeData := models.Recipe{
-		ID:          newRecipeID,
-		UserID:      bson.ObjectIdHex(claims["id"].(string)),
-		Name:        "Untitled Recipe",
-		Archived:    false,
-		LastUpdated: time.Now(),
+		ID:           newRecipeID,
+		UserID:       bson.ObjectIdHex(claims["id"].(string)),
+		OriginalID:   newRecipeID,
+		ParentID:     newRecipeID,
+		Name:         "Untitled Recipe",
+		Ingredients:  []models.Ingredient{},
+		Instructions: []models.Instruction{},
+		URL:          "",
+		Archived:     false,
+		LastUpdated:  time.Now(),
 	}
 	ce := h.Controller.UpsertRecipe(recipeData)
 	if ce.HasErrors() {
@@ -62,6 +67,35 @@ func (h APIHandler) GetNewRecipeID(w http.ResponseWriter, r *http.Request) {
 	}
 	sendResponseJSON(w, map[string]interface{}{
 		"recipeID": newRecipeID,
+	})
+}
+
+//GetForkRecipeByID handles a GET request to fork a new recipe from an original with a given ID
+func (h APIHandler) GetForkRecipeByID(w http.ResponseWriter, r *http.Request) {
+	recipeID := chi.URLParam(r, "recipeID")
+	if !bson.IsObjectIdHex(recipeID) {
+		sendErrorCode(w, 400, "Invalid recipe ID", nil)
+		return
+	}
+	recipe, ce := h.Controller.FindRecipeByID(bson.ObjectIdHex(recipeID))
+	if ce.HasErrors() {
+		handleControllerErrors(w, 500, "Cannot retreive recipe with this ID", ce)
+		return
+	}
+	_, claims, _ := jwtauth.FromContext(r.Context())
+	newRecipeID := bson.NewObjectId()
+	recipe.ParentID = recipe.ID
+	recipe.ID = newRecipeID
+	recipe.UserID = bson.ObjectIdHex(claims["id"].(string))
+	recipe.Name = recipe.Name + " (fork)"
+	recipe.LastUpdated = time.Now()
+	ce = h.Controller.UpsertRecipe(*recipe)
+	if ce.HasErrors() {
+		handleControllerErrors(w, 500, "Cannot create new recipe", ce)
+		return
+	}
+	sendResponseJSON(w, map[string]interface{}{
+		"newID": newRecipeID,
 	})
 }
 
@@ -90,6 +124,8 @@ func (h APIHandler) PostImportRecipe(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	recipeData.ID = bson.NewObjectId()
+	recipeData.OriginalID = recipeData.ID
+	recipeData.ParentID = recipeData.ID
 	recipeData.UserID = bson.ObjectIdHex(claims["id"].(string))
 	ce := h.Controller.UpsertRecipe(recipeData)
 	if ce.HasErrors() {
