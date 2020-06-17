@@ -4,6 +4,7 @@ import Home from "@/views/Home.vue"
 import Login from "@/views/Login.vue"
 import Authorize from "@/views/Authorize.vue"
 import Logout from "@/views/Logout.vue"
+import RecipeViewer from "@/views/RecipeViewer.vue"
 import RecipeEditor from "@/views/RecipeEditor.vue"
 import RecipeImporter from "@/views/RecipeImporter.vue"
 
@@ -34,6 +35,12 @@ export default new Router({
 			path: "/recipe/import",
 			component: RecipeImporter,
 		},
+		{
+			path: "/recipe/:recipeID/",
+			component: RecipeViewer,
+			props: true,
+		},
+
 		{
 			path: "/recipe/:recipeID/edit",
 			component: RecipeEditor,

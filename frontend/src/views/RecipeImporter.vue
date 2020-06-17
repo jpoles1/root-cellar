@@ -21,7 +21,7 @@
 				</template>
 				<v-card>
 					<v-card-text class="grey lighten-4">
-						<RecipeViewer :recipe=recipe_preview />
+						<RecipeDisplay :recipe=recipe_preview />
 					</v-card-text>
 				</v-card>
 			</v-expansion-panel-content>
@@ -37,7 +37,7 @@ import Vue from "vue"
 import * as jajax from "@/jajax"
 import * as iparser from "@/components/ingredient-parser"
 import { Instruction } from "@/components/ingredient-parser/instruction"
-import RecipeViewer from "@/components/RecipeViewer.vue"
+import RecipeDisplay from "@/components/RecipeDisplay.vue"
 
 // From: https://www.bonappetit.com/recipe/crispy-green-rice-pilaf
 const ingredient_string =
@@ -66,7 +66,7 @@ Transfer rice mixture to bowl with vegetables and toss to combine. Drizzle in he
 
 export default Vue.extend({
 	components: {
-		RecipeViewer,
+		RecipeDisplay,
 	},
 	props: {
 		recipeID: {
@@ -101,7 +101,7 @@ export default Vue.extend({
 				"ingredients": this.ingredient_list,
 				"instructions": this.instruction_list,
 				"archived": false,
-				"last_updated": Date.now(),
+				"last_updated": new Date().toJSON(),
 			}
 		},
 		ingredient_list(): iparser.Ingredient[] {
