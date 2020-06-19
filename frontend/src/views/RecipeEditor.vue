@@ -3,7 +3,11 @@
 		<div v-if="recipe">
 			<input type="text" placeholder="Recipe Name" v-model="recipe.name" class="recipe-title-input"/>
 			<br>
-			<ForkRecipe :recipeID="recipeID"/>
+			Forked from <a :href="`/recipe/${recipe.parent_id}/`">{{recipe.parent_id.slice(0, 6)}}</a> at {{when_created(recipe.id, "LT on l")}}
+			<div style="margin-top: 10px">
+				<ForkRecipe :recipeID="recipeID"/>
+			</div>
+			<hr style="margin: 20px 0;">
 			<!--Active Time: <DurationInput v-model="recipe.active_time" />
 			<input type="text" placeholder="Active Time" v-model="recipe.active_time" style="width: 140px; padding-left: 10px; font-size: 80%;"/>-->
 			<div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
@@ -52,6 +56,7 @@ import ForkRecipe from "@/components/ForkRecipe.vue"
 import * as jajax from "@/jajax"
 import moment, { updateLocale } from "moment"
 import parse_duration from "parse-duration"
+import ObjectID from "bson-objectid"
 
 export default Vue.extend({
 	components: {
@@ -70,6 +75,9 @@ export default Vue.extend({
 		}
 	},
 	methods: {
+		when_created(id: string, formater: string = "l"): string {
+			return moment(new ObjectID(id).getTimestamp()).format(formater)
+		},
 		add_ingredient() {
 			this.recipe.ingredients.push({
 				ingredient: "",
@@ -155,11 +163,15 @@ export default Vue.extend({
 	.recipe-title-input{
 		font-size: 28pt;
 		text-align: center;
+		margin: auto;
 		margin-bottom: 20px;
+		width: 800px;
+		max-width: 96%;
 	}
 	.recipe-section{
 		width: 45%;
-		min-width: 450px;
+		max-width: 100%;
+		min-width: 480px;
 		margin-bottom: 20px;
 	}
 	.ingredient-entry{
