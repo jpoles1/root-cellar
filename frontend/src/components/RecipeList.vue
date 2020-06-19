@@ -1,13 +1,17 @@
 <template>
     <div style="display: flex; justify-content: center; flex-wrap: wrap;">
-		<v-card v-for="(recipe, recipeIndex) in recipeList" :key="recipeIndex" style="margin: 20px 14px; width: 220px; cursor: pointer;" @click="$router.push(`/recipe/${recipe.id}/edit`)">
-			<h2>{{recipe.name}}</h2>
+		<v-card v-for="(recipe, recipeIndex) in recipeList" :key="recipeIndex" style="margin: 20px 14px; width: 340px; padding: 12px 10px 4px 10px">
+			<h2 @click="$router.push(`/recipe/${recipe.id}/`)" style="cursor: pointer">{{recipe.name}}</h2>
 			Active Time: {{format_dt(recipe.active_time)}}
 			<br>
 			Total Time: {{format_dt(recipe.total_time)}}
 			<br>
 			Created on:
 			{{when_created(recipe.id)}}
+			<div style="transform: scale(0.8); text-align: center;">
+				<v-btn :href="`/recipe/${recipe.id}/`" class="primary" small fab><v-icon>find_in_page</v-icon></v-btn>
+				<v-btn :href="`/recipe/${recipe.id}/edit`" class="primary" small fab><v-icon>edit</v-icon></v-btn>
+			</div>
 		</v-card>
     </div>
 </template>
@@ -16,7 +20,7 @@
 import Vue from "vue"
 import * as jajax from "@/jajax"
 import moment from "moment"
-const ObjectID = require("bson-objectid")
+import ObjectID from "bson-objectid"
 
 export default Vue.extend({
 	data() {
@@ -31,8 +35,8 @@ export default Vue.extend({
 		format_dt(dt: Date) {
 			return dt ? moment(dt).format("L") : "Unknown"
 		},
-		when_created(id: string): string {
-			return moment(ObjectID(id).getTimestamp()).format("l")
+		when_created(id: string, formatter: string = "l"): string {
+			return moment(new ObjectID(id).getTimestamp()).format(formatter)
 		},
 		get_recipes() {
 			let url = this.$store.state.api_url + "/recipe/list"
