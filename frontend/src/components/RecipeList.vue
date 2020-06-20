@@ -20,7 +20,7 @@
 import Vue from "vue"
 import * as jajax from "@/jajax"
 import moment from "moment"
-import ObjectID from "bson-objectid"
+const ObjectID = require("bson-objectid")
 
 export default Vue.extend({
 	data() {

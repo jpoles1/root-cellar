@@ -59,7 +59,7 @@ import ForkRecipe from "@/components/ForkRecipe.vue"
 import * as jajax from "@/jajax"
 import moment, { updateLocale } from "moment"
 import parse_duration from "parse-duration"
-import ObjectID from "bson-objectid"
+const ObjectID = require("bson-objectid")
 
 export default Vue.extend({
 	components: {
