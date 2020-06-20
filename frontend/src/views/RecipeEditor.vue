@@ -2,6 +2,9 @@
 	<div>
 		<div v-if="recipe">
 			<input type="text" placeholder="Recipe Name" v-model="recipe.name" class="recipe-title-input"/>
+			<div>
+				Servings = <input type="text" placeholder="# servings" v-model="recipe.servings" style="padding-left: 10px; width: 100px"/>
+			</div>
 			<br>
 			Forked from <a :href="`/recipe/${recipe.parent_id}/`">{{recipe.parent_id.slice(0, 6)}}</a> at {{when_created(recipe.id, "LT on l")}}
 			<div style="margin-top: 10px">
