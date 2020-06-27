@@ -1,16 +1,16 @@
 <template>
     <div style="display: flex; justify-content: center; flex-wrap: wrap;">
-		<v-card v-for="(recipe, recipeIndex) in recipeList" :key="recipeIndex" style="margin: 20px 14px; width: 340px; padding: 12px 10px 4px 10px">
-			<h2 @click="$router.push(`/recipe/${recipe.id}/`)" style="cursor: pointer">{{recipe.name}}</h2>
-			Active Time: {{format_dt(recipe.active_time)}}
-			<br>
-			Total Time: {{format_dt(recipe.total_time)}}
-			<br>
-			Created on:
-			{{when_created(recipe.id)}}
-			<div style="transform: scale(0.8); text-align: center;">
-				<v-btn :href="`/recipe/${recipe.id}/`" class="primary" small fab><v-icon>find_in_page</v-icon></v-btn>
-				<v-btn :href="`/recipe/${recipe.id}/edit`" class="primary" small fab><v-icon>edit</v-icon></v-btn>
+		<v-card v-for="(recipe, recipeIndex) in recipeList" :key="recipeIndex" class="recipe-list-card">
+			<div>
+				<h3 @click="$router.push(`/recipe/${recipe.id}/`)" style="cursor: pointer">{{recipe.name}}</h3>
+				<div v-if="recipe.servings != ''">Servings: {{recipe.servings}}</div>
+				<div v-if="recipe.active_time != ''">Active Time: {{format_dt(recipe.active_time)}}</div>
+				<div v-if="recipe.total_time != ''">Total Time: {{format_dt(recipe.total_time)}}</div>
+				Created on: {{when_created(recipe.id)}}
+				<div style="transform: scale(0.8); text-align: center;">
+					<v-btn :href="`/recipe/${recipe.id}/`" class="primary" small fab><v-icon>find_in_page</v-icon></v-btn>
+					<v-btn :href="`/recipe/${recipe.id}/edit`" class="primary" small fab><v-icon>edit</v-icon></v-btn>
+				</div>
 			</div>
 		</v-card>
     </div>
@@ -56,3 +56,14 @@ export default Vue.extend({
 	},
 })
 </script>
+
+<style scoped>
+	.recipe-list-card {
+		margin: 20px 14px;
+		width: 300px;
+		padding: 12px 10px 4px 10px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+</style>

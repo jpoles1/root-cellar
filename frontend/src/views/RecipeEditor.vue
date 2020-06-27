@@ -2,10 +2,11 @@
 	<div>
 		<div v-if="recipe">
 			<input type="text" placeholder="Recipe Name" v-model="recipe.name" class="recipe-title-input"/>
-			<div>
-				Servings = <input type="text" placeholder="# servings" v-model="recipe.servings" style="padding-left: 10px; width: 100px"/>
+			<div class="recipe-header-inputs">
+				<v-text-field v-model="recipe.servings" label="# of Servings" outline />
+				<v-text-field v-model="recipe.active_time" label="Active Time" outline suffix="minutes"/>
+				<v-text-field v-model="recipe.total_time" label="Total Time" outline suffix="minutes" />
 			</div>
-			<br>
 			Forked from <a :href="`/recipe/${recipe.parent_id}/`">{{recipe.parent_id.slice(0, 6)}}</a> at {{when_created(recipe.id, "LT on l")}}
 			<div style="margin-top: 10px">
 				<ForkRecipe :recipeID="recipeID"/>
@@ -132,7 +133,7 @@ export default Vue.extend({
 		},
 		recipe_update() {
 			clearTimeout(this.saveTimeout)
-			this.saveTimeout = setTimeout(this.save_recipe, 5 * 1000)
+			this.saveTimeout = setTimeout(this.save_recipe, 2.5 * 1000)
 		},
 		save_recipe() {
 			let updatedRecipe = JSON.parse(JSON.stringify(this.recipe))
@@ -163,7 +164,7 @@ export default Vue.extend({
 </script>
 
 <style>
-	.recipe-title-input{
+	.recipe-title-input {
 		font-size: 28pt;
 		text-align: center;
 		margin: auto;
@@ -171,29 +172,38 @@ export default Vue.extend({
 		width: 800px;
 		max-width: 96%;
 	}
-	.recipe-section{
+	.recipe-header-inputs {
+		display: flex;
+		justify-content: center;
+		margin: -15px 0;
+	}
+	.recipe-header-inputs .v-text-field {
+		max-width: 180px;
+		transform: scale(0.8);
+	}
+	.recipe-section {
 		width: 45%;
 		max-width: 100%;
 		min-width: 480px;
 		margin-bottom: 20px;
 	}
-	.ingredient-entry{
+	.ingredient-entry {
 		margin: 2px 0;
 		padding: 12px;
 	}
-	.ingredient-quantity-input{
+	.ingredient-quantity-input {
 		width: 60px !important;
 		text-align: center;
 	}
-	.ingredient-unit-input{
+	.ingredient-unit-input {
 		width: 100px;
 		text-align: center;
 	}
-	.ingredient-ingredient-input{
+	.ingredient-ingredient-input {
 		width: 280px;
 		text-align: center;
 	}
-	.instruction-order{
+	.instruction-order {
 		float: right;
 		border: 1px solid #555;
 		border-bottom: none;
@@ -201,18 +211,18 @@ export default Vue.extend({
 		border-top-right-radius: 5px;
 		padding: 4px;
 	}
-	.instruction-order-input{
+	.instruction-order-input {
 		width: 30px !important;
 		text-align: center;
 		border: none !important;
 	}
-	.ingredient-notes-input{
+	.ingredient-notes-input {
 		width: calc(60px + 100px + 280px);
 		text-align: center;
 		font-style: italic;
 		margin-top: 6px;
 	}
-	input {
+	.recipe-section input, .recipe-title-input {
 		border: 1px solid #555 !important;
 		padding: 3px 0;
 		border-radius: 2px !important;
