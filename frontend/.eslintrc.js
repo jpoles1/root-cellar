@@ -13,6 +13,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     //indentation
     'no-tabs': 'off',
+    'no-control-regex': 'off',
     'indent': ['error', 'tab'],
     'space-before-function-paren': 'off',
     'comma-dangle': ["error", "always-multiline"],
