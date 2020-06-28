@@ -1,5 +1,9 @@
 self.__precacheManifest = [
   {
+    "revision": "7650683bdd58293be7db3e4503eed9e9",
+    "url": "/sprout.png"
+  },
+  {
     "revision": "b6216d61c03e6ce0c9aea6ca7808f7ca",
     "url": "/robots.txt"
   },
@@ -12,7 +16,7 @@ self.__precacheManifest = [
     "url": "/js/app.6cadcbe6.js"
   },
   {
-    "revision": "c75c735c19d1eea89f5267c2aa9a5da2",
+    "revision": "c0c3d2bc81f34f0f7154ee8e9d455d55",
     "url": "/index.html"
   },
   {
@@ -22,6 +26,10 @@ self.__precacheManifest = [
   {
     "revision": "0d9c78166fd8c428235defa4e70291a9",
     "url": "/img/404.png"
+  },
+  {
+    "revision": "f67beb4e2b54e4276e8efd9328bdad8e",
+    "url": "/favicon.png"
   },
   {
     "revision": "472fd2e96f434a0b68a0",
