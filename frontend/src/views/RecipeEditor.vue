@@ -72,7 +72,6 @@ const ObjectID = require("bson-objectid")
 export default Vue.extend({
 	components: {
 		ForkRecipe,
-		DurationInput,
 	},
 	props: {
 		recipeID: {
