@@ -77,8 +77,8 @@ export default Vue.extend({
 		return {
 			"name": "Untitled Recipe",
 			"desc": "",
-			"ingredient_string": ingredient_string,
-			"instruction_string": instruction_string,
+			"ingredient_string": "",
+			"instruction_string": "",
 		}
 	},
 	methods: {
