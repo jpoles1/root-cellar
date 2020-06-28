@@ -4,8 +4,8 @@
 			<div>
 				<h3 @click="$router.push(`/recipe/${recipe.id}/`)" style="cursor: pointer">{{recipe.name}}</h3>
 				<div v-if="recipe.servings != ''">Servings: {{recipe.servings}}</div>
-				<div v-if="recipe.active_time != ''">Active Time: {{format_dt(recipe.active_time)}}</div>
-				<div v-if="recipe.total_time != ''">Total Time: {{format_dt(recipe.total_time)}}</div>
+				<div v-if="recipe.active_time != ''">Active Time: {{recipe.active_time}} min</div>
+				<div v-if="recipe.total_time != ''">Total Time: {{recipe.total_time}} min</div>
 				Created on: {{when_created(recipe.id)}}
 				<div style="transform: scale(0.8); text-align: center;">
 					<v-btn :href="`/recipe/${recipe.id}/`" class="primary" small fab><v-icon>find_in_page</v-icon></v-btn>
