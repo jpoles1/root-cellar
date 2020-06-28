@@ -7,6 +7,13 @@
 				<v-text-field v-model="recipe.active_time" label="Active Time" outline suffix="minutes"/>
 				<v-text-field v-model="recipe.total_time" label="Total Time" outline suffix="minutes" />
 			</div>
+			<div>
+				<a @click="show_url_input=true" v-show="recipe.url == '' && !show_url_input">+ add recipe URL</a>
+				<span v-if="recipe.url != '' || show_url_input">
+					URL: <input v-model="recipe.url" label="Recipe URL" style="border: 1px solid black; margin-left: 5px; font-size: 80%; padding: 2px;"/>
+				</span>
+			</div>
+			<br>
 			Forked from <a :href="`/recipe/${recipe.parent_id}/`">{{recipe.parent_id.slice(0, 6)}}</a> at {{when_created(recipe.id, "LT on l")}}
 			<div style="margin-top: 10px">
 				<ForkRecipe :recipeID="recipeID"/>
@@ -76,6 +83,7 @@ export default Vue.extend({
 		return {
 			recipe: undefined as any,
 			saveTimeout: undefined as any,
+			show_url_input: false,
 		}
 	},
 	methods: {
