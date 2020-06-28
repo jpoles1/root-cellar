@@ -158,7 +158,11 @@ export default Vue.extend({
 	mounted() {
 		this.$nextTick(() => {
 			this.fetch_recipe()
+			window.onbeforeunload = () => this.save_recipe()
 		})
+	},
+	beforeDestroy: function () {
+		window.onbeforeunload = () => {}
 	},
 })
 </script>
