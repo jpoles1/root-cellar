@@ -2,7 +2,7 @@
 	<div id="app">
 		<v-app id="inspire">
 			<v-navigation-drawer id="nav"
-			mobile-break-point=0 width=200
+			mobile-break-point=0 width=200 v-if="!$vuetify.breakpoint.xs || openNav"
 			fixed app clipped :mini-variant="!openNav">
 				<v-list dense>
 					<router-link v-for="(navEntry, navIndex) in navEntries" :key="navIndex"
