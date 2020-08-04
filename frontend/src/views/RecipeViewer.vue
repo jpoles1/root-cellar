@@ -54,10 +54,6 @@ export default Vue.extend({
 			let url = this.$store.state.api_url + "/recipe/" + this.recipeID
 			jajax.getJSON(url, this.$store.state.jwt_token)
 				.then((resp) => {
-					if (resp!.uid! !== this.$store.state.jwt_claims["id"]) {
-						window.location.href = "/"
-						return
-					}
 					this.recipe = resp
 				}).catch((err) => {
 					this.$toast(`Failed to fetch recipe data (Err Code: ${err.respCode})`, { color: "#d98303" })
