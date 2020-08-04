@@ -114,7 +114,7 @@ export default Vue.extend({
 			}
 		},
 		fetch_recipe() {
-			let url = this.$store.state.api_url + "/recipe/" + this.recipeID
+			let url = this.$store.state.api_url + "/recipe/" + this.recipeID + "/view"
 			jajax.getJSON(url, this.$store.state.jwt_token)
 				.then((resp) => {
 					if (resp!.uid! !== this.$store.state.jwt_claims["id"]) {

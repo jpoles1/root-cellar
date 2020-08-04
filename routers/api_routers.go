@@ -28,6 +28,6 @@ func APIRouter(r chi.Router, apiHandler APIHandler) chi.Router {
 		})
 	})
 	//Allow recipes to be viewed even if not logged in
-	r.Get("/recipe/{recipeID}", apiHandler.GetRecipeByID)
+	r.Get("/recipe/{recipeID}/view", apiHandler.GetRecipeByID)
 	return r
 }
