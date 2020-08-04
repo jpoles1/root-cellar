@@ -14,7 +14,9 @@
 				</span>
 			</div>
 			<br>
-			Forked from <a :href="`/recipe/${recipe.parent_id}/`">{{recipe.parent_id.slice(0, 6)}}</a> at {{when_created(recipe.id, "LT on l")}}
+			<span v-if="recipe.id != recipe.parent_id">
+				Forked from <a :href="`/recipe/${recipe.parent_id}/`">{{recipe.parent_id.slice(0, 6)}}</a> at {{when_created(recipe.id, "LT on l")}}
+			</span>
 			<div style="margin-top: 10px">
 				<ForkRecipe :recipeID="recipeID"/>
 			</div>
