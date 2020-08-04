@@ -195,7 +195,7 @@ export default Vue.extend({
 	.recipe-section {
 		width: 45%;
 		max-width: 100%;
-		min-width: 480px;
+		min-width: min(100%, 480px);
 		margin-bottom: 20px;
 	}
 	.ingredient-entry {
@@ -211,7 +211,7 @@ export default Vue.extend({
 		text-align: center;
 	}
 	.ingredient-ingredient-input {
-		width: 280px;
+		width: min(100%, 280px);
 		text-align: center;
 	}
 	.instruction-order {
@@ -228,7 +228,7 @@ export default Vue.extend({
 		border: none !important;
 	}
 	.ingredient-notes-input {
-		width: calc(60px + 100px + 280px);
+		width: min(100%, calc(60px + 100px + 280px));
 		text-align: center;
 		font-style: italic;
 		margin-top: 6px;
