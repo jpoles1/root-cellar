@@ -22,11 +22,12 @@ func APIRouter(r chi.Router, apiHandler APIHandler) chi.Router {
 				r.Get("/list", apiHandler.GetMyRecipeList)
 				r.Get("/new", apiHandler.GetNewRecipeID)
 				r.Post("/import", apiHandler.PostImportRecipe)
-				r.Get("/{recipeID}", apiHandler.GetRecipeByID)
 				r.Get("/{recipeID}/fork", apiHandler.GetForkRecipeByID)
 				r.Post("/{recipeID}/update", apiHandler.PostUpdateRecipe)
 			})
 		})
 	})
+	//Allow recipes to be viewed even if not logged in
+	r.Get("/recipe/{recipeID}", apiHandler.GetRecipeByID)
 	return r
 }
