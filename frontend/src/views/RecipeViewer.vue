@@ -7,7 +7,7 @@
 			<div v-if="recipe.servings != ''">Servings: {{recipe.servings}}</div>
 			<div v-if="recipe.active_time != ''">Active Time: {{recipe.active_time}} min</div>
 			<div v-if="recipe.total_time != ''">Total Time: {{recipe.total_time}} min</div>
-			<div v-if="recipe.url != ''"><a :href="recipe.url">Original Recipe</a></div>
+			<div v-if="recipe.url != ''"><a :href="recipe.url" target="_blank">Original Recipe</a></div>
 		</div>
 		Forked from <a :href="`/recipe/${recipe.parent_id}/`">{{recipe.parent_id.slice(0, 6)}}</a> at {{when_created(recipe.id, "LT on l")}}
 		<div style="margin-top: 10px;">
