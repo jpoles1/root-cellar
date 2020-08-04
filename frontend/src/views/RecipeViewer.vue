@@ -1,6 +1,6 @@
 <template>
     <div v-if="recipe">
-		<headful :title="'Root Cellar - ' + recipe.name" />
+		<headful :title="'Root Cellar - ' + recipe.name" :description="'Root Cellar Recipes: Learn how to make ' + recipe.name"/>
 		<h1>
 			{{recipe.name}}
 		</h1>
