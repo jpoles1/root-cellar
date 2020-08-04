@@ -1,5 +1,6 @@
 <template>
     <div style="display: flex; justify-content: center; flex-wrap: wrap;">
+		<headful title="Root Cellar - Recipe List" />
 		<v-card v-for="(recipe, recipeIndex) in recipeList" :key="recipeIndex" class="recipe-list-card">
 			<div>
 				<h3 @click="$router.push(`/recipe/${recipe.id}/`)" style="cursor: pointer">{{recipe.name}}</h3>

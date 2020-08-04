@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<headful title="Root Cellar - Recipe Import" />
 		<input type="text" placeholder="Recipe Name" v-model="name"
 			style="font-size: 28pt; text-align: center; margin-bottom: 20px;"/>
 		<div style="display: flex; justify-content: space-around;">

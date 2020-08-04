@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<headful title="Root Cellar - Recipe Editor" />
 		<div v-if="recipe">
 			<input type="text" placeholder="Recipe Name" v-model="recipe.name" class="recipe-title-input"/>
 			<div class="recipe-header-inputs">

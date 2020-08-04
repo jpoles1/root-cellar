@@ -7,6 +7,7 @@ import Logout from "@/views/Logout.vue"
 import RecipeViewer from "@/views/RecipeViewer.vue"
 import RecipeEditor from "@/views/RecipeEditor.vue"
 import RecipeImporter from "@/views/RecipeImporter.vue"
+import Error404 from "./components/404.vue"
 
 Vue.use(Router)
 
@@ -45,6 +46,10 @@ export default new Router({
 			path: "/recipe/:recipeID/edit",
 			component: RecipeEditor,
 			props: true,
+		},
+		{
+			path: "*",
+			component: Error404,
 		},
 	],
 })
