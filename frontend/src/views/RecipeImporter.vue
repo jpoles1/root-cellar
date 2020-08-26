@@ -2,7 +2,7 @@
 	<div>
 		<headful title="Root Cellar - Recipe Import" />
 		<input type="text" placeholder="Recipe Name" v-model="name" style="font-size: 28pt; text-align: center; margin-bottom: 20px;" />
-		<div style="display: flex; justify-content: space-around;">
+		<div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
 			<div class="recipe-section">
 				<h2>Ingredients:</h2>
 				<textarea v-model="ingredient_string" style="width: 100%; height: 220px;" />
