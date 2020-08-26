@@ -1,8 +1,8 @@
 <template>
 	<v-app>
-		<v-navigation-drawer :permanent="open_nav" clipped app :expand-on-hover="!open_nav" :mini-variant="!open_nav" width="200" mobile-breakpoint="0">
+		<v-navigation-drawer :permanent="open_nav" clipped app :expand-on-hover="!open_nav" :mini-variant="!open_nav" width="200" mobile-breakpoint="0" :temporary="$vuetify.breakpoint.xs" v-if="!$vuetify.breakpoint.xs || open_nav">
 			<v-list dense nav>
-				<v-list-item v-for="(nav_entry, nav_index) in nav_entries.filter(x => !x.hide_entry)" :key="nav_index" link :to="nav_entry.nav_url">
+				<v-list-item v-for="(nav_entry, nav_index) in nav_entries.filter(x => !x.hide_entry)" :key="nav_index" link :to="nav_entry.nav_url" @click.native="open_nav = false">
 					<v-list-item-icon>
 						<i :class="'fas fa-' + nav_entry.nav_icon" style="font-size: 140%;"></i>
 					</v-list-item-icon>
@@ -24,7 +24,9 @@
 		<v-main>
 			<v-container fluid>
 				<v-fade-transition mode="out-in">
-					<router-view></router-view>
+					<center>
+						<router-view></router-view>
+					</center>
 				</v-fade-transition>
 			</v-container>
 		</v-main>

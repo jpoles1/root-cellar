@@ -12,18 +12,16 @@
 				<textarea v-model="instruction_string" style="width: 100%; height: 220px;"> </textarea>
 			</div>
 		</div>
-		<v-expansion-panel>
-			<v-expansion-panel-content>
-				<template v-slot:header>
-					<div>Preview Recipe</div>
-				</template>
-				<v-card>
+		<v-expansion-panels>
+			<v-expansion-panel>
+				<v-expansion-panel-header>Preview Recipe</v-expansion-panel-header>
+				<v-expansion-panel-content>
 					<v-card-text class="grey lighten-4">
 						<RecipeDisplay :recipe="recipe_preview" />
 					</v-card-text>
-				</v-card>
-			</v-expansion-panel-content>
-		</v-expansion-panel>
+				</v-expansion-panel-content>
+			</v-expansion-panel>
+		</v-expansion-panels>
 		<br />
 		<div>
 			<v-btn class="primary" @click="save_recipe">Save</v-btn>
@@ -124,3 +122,9 @@ export default Vue.extend({
 	},
 });
 </script>
+
+<style scoped>
+div >>> .v-expansion-panel-content__wrap {
+	padding: 0px;
+}
+</style>

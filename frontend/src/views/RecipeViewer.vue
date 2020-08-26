@@ -15,10 +15,10 @@
 		</span>
 		<div style="margin-top: 10px;">
 			<v-btn @click="$router.push(`/recipe/${recipe.id}/edit`)" small v-if="recipe.uid == $store.state.jwt_claims.id">
-				<i class="fas fa-pencil-alt" style="font-size: 18px; margin-right: 10px;" />
+				<i class="fas fa-pencil-alt" style="font-size: 18px;" />
 				Edit
 			</v-btn>
-			<Fork :recipeID="recipe.id" />
+			<Fork :recipeID="recipe.id" style="margin-left: 20px;" />
 		</div>
 		<hr style="margin: 20px 0;" />
 		<RecipeDisplay :recipe="recipe" />
