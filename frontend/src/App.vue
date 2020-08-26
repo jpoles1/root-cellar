@@ -47,8 +47,8 @@ export default Vue.extend({
 			return [
 				{ nav_text: "Home", nav_icon: "home", nav_url: "/" },
 				{ nav_text: "Import", nav_icon: "camera", nav_url: "/recipe/import", hide_entry: !this.$store.state.jwt_token },
-				{ nav_text: "Settings", nav_icon: "cogs", nav_url: "/settings/", hide_entry: !this.$store.state.jwt_token },
-				/*{ nav_text: "Login", nav_icon: "key", nav_url: "/login", hide_entry: this.$store.state.jwt_token },*/
+				/*{ nav_text: "Settings", nav_icon: "cogs", nav_url: "/settings/", hide_entry: !this.$store.state.jwt_token },
+				{ nav_text: "Login", nav_icon: "key", nav_url: "/login", hide_entry: this.$store.state.jwt_token },*/
 				{ nav_text: "Logout", nav_icon: "sign-out-alt", nav_url: "/logout", hide_entry: !this.$store.state.jwt_token },
 			];
 		},
