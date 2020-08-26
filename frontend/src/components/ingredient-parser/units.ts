@@ -19,7 +19,7 @@ export const units = {
 	small: ["Small"],
 	medium: ["Medium"],
 	large: ["large", "Large"],
-} as { [key: string]: string[] }
+} as { [key: string]: string[] };
 
 export const pluralUnits = {
 	cup: "cups",
@@ -42,4 +42,4 @@ export const pluralUnits = {
 	can: "cans",
 	slice: "slices",
 	piece: "pieces",
-} as { [key: string]: string }
+} as { [key: string]: string };

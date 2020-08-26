@@ -14,14 +14,14 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
+import Vue from "vue";
 
 export default Vue.extend({
 	mounted: function() {
-		this.$nextTick(function () {
-			this.$store.commit("set_JWT_token", undefined)
-			window.location.href = "/"
-		})
+		this.$nextTick(function() {
+			this.$store.commit("set_JWT_token", undefined);
+			window.location.href = "/";
+		});
 	},
-})
+});
 </script>
