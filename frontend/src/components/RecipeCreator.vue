@@ -6,23 +6,24 @@
 	</div>
 </template>
 <script lang="ts">
-import Vue from "vue"
-import * as jajax from "@/jajax"
+import Vue from "vue";
+import * as jajax from "@/jajax";
 
 export default Vue.extend({
 	methods: {
 		createRecipe() {
-			let url = this.$store.state.api_url + "/recipe/new"
-			jajax.getJSON(url, this.$store.state.jwt_token)
-				.then((resp) => {
+			const url = this.$store.state.api_url + "/recipe/new";
+			jajax
+				.get_json(url, this.$store.state.jwt_token)
+				.then(resp => {
 					if (resp.recipeID) {
-						window.location.href = "/recipe/" + resp.recipeID + "/edit"
+						window.location.href = "/recipe/" + resp.recipeID + "/edit";
 					}
 				})
-				.catch((err) => {
-					this.$toast(`Failed to create recipe (Err Code: ${err.respCode})`, { color: "#d98303" })
-				})
+				.catch(err => {
+					this.$toast(`Failed to create recipe (Err Code: ${err.respCode})`, { color: "#d98303" });
+				});
 		},
 	},
-})
+});
 </script>

@@ -1,28 +1,25 @@
-import Vue from "vue"
-import App from "./App.vue"
-import router from "./router"
-import store from "./store"
-import "./registerServiceWorker"
+import Vue from "vue";
+import App from "./App.vue";
+import "./registerServiceWorker";
+import router from "./router";
+import store from "./store";
 
-import "vuetify/dist/vuetify.min.css"
+import vuetify from "./plugins/vuetify";
+import VuetifyToast from "vuetify-toast-snackbar";
+import headful from "vue-headful";
 
-import Vuetify from "vuetify"
-import VuetifyToast from "vuetify-toast-snackbar"
-
-import headful from "vue-headful"
-
-Vue.use(Vuetify)
 Vue.use(VuetifyToast, {
 	x: "left",
 	timeout: 2500,
 	color: "#004D40", // teal darken-4
-})
-Vue.component("headful", headful)
+});
+Vue.component("headful", headful);
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
 	router,
 	store,
+	vuetify,
 	render: h => h(App),
-}).$mount("#app")
+}).$mount("#app");

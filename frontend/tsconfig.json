@@ -6,13 +6,19 @@
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
       "webpack-env",
-      "jest"
+      "jest",
+      "vuetify"
+    ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules/vuetify/types"
     ],
     "paths": {
       "@/*": [

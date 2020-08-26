@@ -1,49 +1,49 @@
-export function postJSON(url: string, payload: any, authToken: string | undefined): Promise<any> {
-	return jsonRequestPromise(url, "POST", payload, authToken)
+export function post_json(url: string, payload: Object, auth_token: string | undefined): Promise<any> {
+	return json_req_promise(url, "POST", payload, auth_token);
 }
 
-export function getJSON(url: string, authToken: string | undefined): Promise<any> {
-	return jsonRequestPromise(url, "GET", undefined, authToken)
+export function get_json(url: string, auth_token: string | undefined): Promise<any> {
+	return json_req_promise(url, "GET", undefined, auth_token);
 }
 
-export function jsonRequestPromise(url: string, method: string, payload: object | undefined, authToken: string | undefined): Promise<[number, string]> {
+export function json_req_promise(url: string, method: string, payload: object | undefined, auth_token: string | undefined): Promise<any> {
 	return new Promise((resolve, reject) => {
-		const xhr = new XMLHttpRequest()
-		if (authToken) {
-			if (!url.includes("?")) url += "?"
-			url += "&jwt=" + authToken
+		const xhr = new XMLHttpRequest();
+		if (auth_token) {
+			if (!url.includes("?")) url += "?";
+			url += "&jwt=" + auth_token;
 		}
-		xhr.open(method, url, true)
+		xhr.open(method, url, true);
 		if (payload) {
-			const payloadString = JSON.stringify(payload)
-			xhr.send(payloadString)
+			const payload_string = JSON.stringify(payload);
+			xhr.send(payload_string);
 		} else {
-			xhr.send()
+			xhr.send();
 		}
 		xhr.onerror = () => {
-			throw Object({ "respCode": 0, "msg": "Could not connect to server!" })
-		}
+			throw Object({ resp_code: 0, msg: "Could not connect to server!" });
+		};
 		xhr.onreadystatechange = () => {
 			if (xhr.readyState === 4) {
 				if (xhr.status === 401) {
-					window.location.href = "/login?source=" + encodeURIComponent(window.location.href)
+					window.location.href = "/login?source=" + encodeURIComponent(window.location.href);
 				}
 				if (xhr.status === 403) {
-					window.location.href = "/"
+					window.location.href = "/";
 				}
 				if (xhr.status === 302) {
-					window.location.href = xhr.responseText
+					window.location.href = xhr.responseText;
 				}
 				if (xhr.status === 200) {
 					// xhr finished successfully
-					const resp = xhr.responseText
-					const respJson = JSON.parse(resp)
-					resolve(respJson)
+					const resp = xhr.responseText;
+					const resp_json = JSON.parse(resp);
+					resolve(resp_json);
 				} else {
 					// xhr failed
-					reject(Object({ "respCode": xhr.status, "msg": xhr.responseText }))
+					reject(Object({ resp_code: xhr.status, msg: xhr.responseText }));
 				}
 			}
-		}
-	})
+		};
+	});
 }
