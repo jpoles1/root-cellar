@@ -14,10 +14,10 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.384c5b2aa1339267ece6b6d722999039.js"
+  "/precache-manifest.b4a9571c437d986179f87252e9d0a16c.js"
 );
 
-workbox.core.setCacheNameDetails({prefix: "learnr"});
+workbox.core.setCacheNameDetails({prefix: "root-cellar"});
 
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {

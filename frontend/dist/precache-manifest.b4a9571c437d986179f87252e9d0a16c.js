@@ -20,6 +20,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/favicon-32.png"
   },
   {
+    "revision": "fb36b8cd332a4c68727812f2cfee6300",
+    "url": "/favicon-512.png"
+  },
+  {
     "revision": "0d9c78166fd8c428235defa4e70291a9",
     "url": "/img/404.png"
   },
@@ -28,7 +32,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/img/google_login.png"
   },
   {
-    "revision": "6f3a7fb9cba41944226a6da7775d3f90",
+    "revision": "36e51a2213f03486be6269b31e1076a4",
     "url": "/index.html"
   },
   {
@@ -40,7 +44,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/js/chunk-vendors.47ca7b74.js"
   },
   {
-    "revision": "ff7bcff91644e06bc6ac75e1632c6183",
+    "revision": "e56da025765958074cae9cac8d4c2f39",
     "url": "/manifest.json"
   },
   {
