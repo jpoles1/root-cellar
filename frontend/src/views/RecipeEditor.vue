@@ -30,7 +30,7 @@
 						<input v-model="ingred.unit" class="ingredient-unit-input" placeholder="Unit" />
 						<input v-model="ingred.ingredient" class="ingredient-ingredient-input" placeholder="Ingredient Name (backspace to clear)" v-on:keyup.delete="e => check_empty_ingredient(e, ingredIndex)" />
 						<br />
-						<input v-model="ingred.notes" class="ingredient-notes-input" placeholder="Notes" />
+						<v-textarea v-model="ingred.notes" class="ingredient-notes-input" placeholder="Notes" rows="1" auto-grow style="padding: 0px" />
 					</div>
 					<v-btn @click="add_ingredient" class="raised">
 						Add Ingredient
@@ -38,12 +38,12 @@
 				</div>
 				<div class="recipe-section">
 					<h2>Instructions</h2>
-					<div v-for="(instruction, instructionIndex) in recipe.instructions" :key="instructionIndex" class="ingredient-entry">
+					<div v-for="(instruction, instructionIndex) in recipe.instructions" :key="instructionIndex" class="intruction-entry">
 						<div class="instruction-order">
 							<b>#</b>
 							<input type="number" min="1" :value="instructionIndex + 1" class="instruction-order-input" @input="rearrange_instructions(instructionIndex, $event)" />
 						</div>
-						<textarea v-model="instruction.instruction" class="instruction-instruction-textarea" placeholder="Instructions..." v-on:keyup.delete="e => check_empty_instruction(e, instructionIndex)" />
+						<v-textarea v-model="instruction.instruction" auto-grow rows="2" class="instruction-instruction-textarea" placeholder="Instructions..." v-on:keyup.delete="e => check_empty_instruction(e, instructionIndex)" />
 					</div>
 					<v-btn @click="add_instruction" class="raised">
 						Add Instruction
@@ -202,8 +202,7 @@ export default Vue.extend({
 	margin-bottom: 20px;
 }
 .ingredient-entry {
-	margin: 2px 0;
-	padding: 12px;
+	margin: 12px 0;
 }
 .ingredient-quantity-input {
 	width: 60px !important;
@@ -216,6 +215,12 @@ export default Vue.extend({
 .ingredient-ingredient-input {
 	width: min(100%, 280px);
 	text-align: center;
+}
+.ingredient-notes-input textarea {
+	padding: 5px 8px !important;
+}
+.ingredient-notes-input .v-text-field__details {
+	display: none;
 }
 .instruction-order {
 	float: right;
@@ -257,6 +262,9 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 .instruction-instruction-textarea {
 	width: 100%;
-	height: 100px;
+	padding: 0px !important;
+}
+.instruction-instruction-textarea textarea {
+	padding: 5px 8px !important;
 }
 </style>
