@@ -36,7 +36,7 @@ import { Instruction } from "@/components/ingredient-parser/instruction";
 import RecipeDisplay from "@/components/RecipeDisplay.vue";
 
 // From: https://www.bonappetit.com/recipe/crispy-green-rice-pilaf
-const ingredient_string = `½ cup raw pistachios
+/*const ingredient_string = `½ cup raw pistachios
 4 cups cilantro, mint, basil, and/or dill
 1 serrano chile, (or up to 3, stems removed, split lengthwise)
 ¼ cup fresh lime juice
@@ -56,7 +56,7 @@ Heat remaining 3 Tbsp. oil in a large nonstick skillet over medium-high until ve
 While rice cooks, thinly slice snap peas and scallions on a long diagonal and transfer to a medium bowl. Add pistachios, feta, and raisins and toss to combine.
 Add fresh peas to rice and continue to cook over medium heat, tossing often, until peas are just cooked through, about 2 minutes.
 Transfer rice mixture to bowl with vegetables and toss to combine. Drizzle in herb sauce, tossing again to coat well. Taste and season with salt if needed.
-`;
+`;*/
 
 export default Vue.extend({
 	components: {
