@@ -238,9 +238,12 @@ export default Vue.extend({
 }
 .recipe-section input,
 .recipe-title-input {
-	border: 1px solid #555 !important;
-	padding: 3px 0;
+	border: 1px solid #555;
+	padding: 3px 10px;
 	border-radius: 2px !important;
+}
+.instruction-order-input {
+	border: none;
 }
 textarea {
 	border: 1px solid #555 !important;
