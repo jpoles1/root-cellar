@@ -1,4 +1,4 @@
-# LearnR
+# Root Cellar
 
 ## Project setup
 ```
