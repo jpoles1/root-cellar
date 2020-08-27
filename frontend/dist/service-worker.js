@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.22c15a093c0500f8959c2453b87a8041.js"
+  "/precache-manifest.d0d6a50cd47dc3b569541c1854f1867d.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "root-cellar"});

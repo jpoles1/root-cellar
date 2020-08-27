@@ -32,7 +32,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/img/google_login.png"
   },
   {
-    "revision": "1497aed2f2df29650bb9e0661fea11f6",
+    "revision": "413741205edbf358ac77a5cda2f8dd67",
     "url": "/index.html"
   },
   {
@@ -44,7 +44,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/js/chunk-vendors.34bdb2bc.js"
   },
   {
-    "revision": "e56da025765958074cae9cac8d4c2f39",
+    "revision": "e56f7bbc107cfa87459d096915b590f4",
     "url": "/manifest.json"
   },
   {
