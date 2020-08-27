@@ -32,7 +32,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/img/google_login.png"
   },
   {
-    "revision": "cedd69dd7c254782149ec000e9bcd5ae",
+    "revision": "1497aed2f2df29650bb9e0661fea11f6",
     "url": "/index.html"
   },
   {
