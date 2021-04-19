@@ -26,7 +26,7 @@
 	<div v-else style="padding-top: 40px;">
 		<h2>Cannot Find Recipe, It Either Never Existed Or Has Been Deleted.</h2>
 		<div style="font-size: 110%; margin-top: 12px; font-style: italic">
-			Click <a href="/">here</a> to return to the recipe list. You will be <a href="/">automatically redirected in 5 seconds...</a>
+			<span>Click <a href="/">here</a> to return to the recipe list. You will be <a href="/">automatically redirected in 5 seconds...</a></span>
 		</div>
 	</div>
 </template>
@@ -68,8 +68,8 @@ export default Vue.extend({
 				.catch(err => {
 					this.$toast(`Failed to fetch recipe data (Err Code: ${err.respCode})`, { color: "#d98303" });
 					window.setTimeout(() => {
-						window.location.href = "/"
-					}, 5000)
+						window.location.href = "/";
+					}, 5000);
 				});
 		},
 	},

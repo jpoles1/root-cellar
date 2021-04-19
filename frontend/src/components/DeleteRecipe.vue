@@ -20,14 +20,14 @@ export default Vue.extend({
 	},
 	methods: {
 		delete_recipe() {
-			if(!confirm("Are you sure you want to delete this recipe! No take-backsies!")) {
-				return
+			if (!confirm("Are you sure you want to delete this recipe! No take-backsies!")) {
+				return;
 			}
-			this.$emit("delete")
+			this.$emit("delete");
 			const url = this.$store.state.api_url + "/recipe/" + this.recipeID + "/delete";
 			jajax
 				.get_json(url, this.$store.state.jwt_token)
-				.then(resp => {
+				.then(() => {
 					this.$toast("Recipe Deleted!");
 					// this.$router.push("/recipe/" + resp.newID + "/edit")
 					window.location.href = "/";

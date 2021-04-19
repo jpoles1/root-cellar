@@ -18,8 +18,8 @@
 			</span>
 			<div style="margin-top: 10px">
 				<ForkRecipe :recipeID="recipeID" />
-				<span style="margin-left: 20px;"/>
-				<DeleteRecipe :recipeID="recipeID" @delete="preventUpdate=true"/>
+				<span style="margin-left: 20px;" />
+				<DeleteRecipe :recipeID="recipeID" @delete="preventUpdate = true" />
 			</div>
 			<hr style="margin: 20px 0;" />
 			<!--Active Time: <DurationInput v-model="recipe.active_time" />
@@ -149,7 +149,7 @@ export default Vue.extend({
 			this.saveTimeout = setTimeout(this.save_recipe, 2.5 * 1000);
 		},
 		save_recipe() {
-			if(this.preventUpdate) return
+			if (this.preventUpdate) return;
 			const updatedRecipe = JSON.parse(JSON.stringify(this.recipe));
 			updatedRecipe.last_updated = new Date().toJSON();
 			const url = this.$store.state.api_url + "/recipe/" + this.recipeID + "/update";
