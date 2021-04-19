@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"root-cellar/models"
+	"github.com/jpoles1/root-cellar/models"
 
 	mgo "github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"

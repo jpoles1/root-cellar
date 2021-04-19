@@ -2,7 +2,8 @@ package controllers
 
 import (
 	"errors"
-	"root-cellar/logging"
+
+	"github.com/jpoles1/root-cellar/logging"
 
 	"github.com/fatih/color"
 	mgo "github.com/globalsign/mgo"

@@ -2,10 +2,11 @@ package main
 
 import (
 	"math"
-	"root-cellar/controllers"
-	"root-cellar/envload"
-	"root-cellar/microservices"
-	"root-cellar/routers"
+
+	"github.com/jpoles1/root-cellar/controllers"
+	"github.com/jpoles1/root-cellar/envload"
+	"github.com/jpoles1/root-cellar/microservices"
+	"github.com/jpoles1/root-cellar/routers"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"

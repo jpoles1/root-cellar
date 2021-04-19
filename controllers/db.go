@@ -1,8 +1,9 @@
 package controllers
 
 import (
-	"root-cellar/logging"
 	"time"
+
+	"github.com/jpoles1/root-cellar/logging"
 
 	mgo "github.com/globalsign/mgo"
 )

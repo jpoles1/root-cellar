@@ -4,8 +4,9 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"root-cellar/logging"
 	"strconv"
+
+	"github.com/jpoles1/root-cellar/logging"
 
 	"github.com/fatih/color"
 	"github.com/subosito/gotenv"
