@@ -20,6 +20,19 @@ func (mc MongoController) UpsertRecipe(recipe models.Recipe) (ce ControllerError
 	return
 }
 
+//UpsertRecipe runs a DB query to create or update a recipe document
+func (mc MongoController) DeleteRecipe(recipeID bson.ObjectId) (ce ControllerError) {
+	var mongoConn *mgo.Session
+	mongoConn, ce.DBError = mc.SessionClone()
+	defer mongoConn.Close()
+	if ce.DBError != nil {
+		return
+	}
+	collection := mongoConn.DB(mc.DBName).C("recipes")
+	ce.APIError = collection.RemoveId(recipeID)
+	return
+}
+
 //RecipeSearch connects to Mongo and fetches any cases matching the bson.M search params
 func (mc MongoController) RecipeSearch(searchParams bson.M) (recipeList []models.Recipe, ce ControllerError) {
 	var mongoConn *mgo.Session

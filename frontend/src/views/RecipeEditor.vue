@@ -18,6 +18,8 @@
 			</span>
 			<div style="margin-top: 10px">
 				<ForkRecipe :recipeID="recipeID" />
+				<span style="margin-left: 20px;"/>
+				<DeleteRecipe :recipeID="recipeID" @delete="preventUpdate=true"/>
 			</div>
 			<hr style="margin: 20px 0;" />
 			<!--Active Time: <DurationInput v-model="recipe.active_time" />
@@ -63,6 +65,7 @@
 import Vue from "vue";
 //import DurationInput from "@/components/DurationInput.vue";
 import ForkRecipe from "@/components/ForkRecipe.vue";
+import DeleteRecipe from "@/components/DeleteRecipe.vue";
 import * as jajax from "@/jajax";
 import moment from "moment";
 //import parse_duration from "parse-duration";
@@ -71,6 +74,7 @@ import ObjectID from "bson-objectid";
 export default Vue.extend({
 	components: {
 		ForkRecipe,
+		DeleteRecipe,
 	},
 	props: {
 		recipeID: {
@@ -82,6 +86,7 @@ export default Vue.extend({
 			recipe: undefined as any,
 			saveTimeout: undefined as any,
 			show_url_input: false,
+			preventUpdate: false,
 		};
 	},
 	methods: {
@@ -144,6 +149,7 @@ export default Vue.extend({
 			this.saveTimeout = setTimeout(this.save_recipe, 2.5 * 1000);
 		},
 		save_recipe() {
+			if(this.preventUpdate) return
 			const updatedRecipe = JSON.parse(JSON.stringify(this.recipe));
 			updatedRecipe.last_updated = new Date().toJSON();
 			const url = this.$store.state.api_url + "/recipe/" + this.recipeID + "/update";

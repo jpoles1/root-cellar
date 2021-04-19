@@ -6,6 +6,10 @@ export function get_json(url: string, auth_token: string | undefined): Promise<a
 	return json_req_promise(url, "GET", undefined, auth_token);
 }
 
+export function delete_json(url: string, auth_token: string | undefined): Promise<any> {
+	return json_req_promise(url, "DELETE", undefined, auth_token);
+}
+
 export function json_req_promise(url: string, method: string, payload: object | undefined, auth_token: string | undefined): Promise<any> {
 	return new Promise((resolve, reject) => {
 		const xhr = new XMLHttpRequest();

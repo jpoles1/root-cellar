@@ -71,6 +71,26 @@ func (h APIHandler) GetNewRecipeID(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+func (h APIHandler) DeleteRecipeByID(w http.ResponseWriter, r *http.Request) {
+	_, claims, _ := jwtauth.FromContext(r.Context())
+	recipeID := chi.URLParam(r, "recipeID")
+	if !bson.IsObjectIdHex(recipeID) {
+		sendErrorCode(w, 400, "Invalid recipe ID", nil)
+		return
+	}
+	recipeData, ce := h.Controller.FindRecipeByID(bson.ObjectIdHex(recipeID))
+	if recipeData.UserID != bson.ObjectIdHex(claims["id"].(string)) {
+		sendErrorCode(w, 401, "Case deletion not permitted.", nil)
+		return
+	}
+	ce = h.Controller.DeleteRecipe(bson.ObjectIdHex(recipeID))
+	if ce.HasErrors() {
+		handleControllerErrors(w, 500, "Cannot delete recipe", ce)
+		return
+	}
+	sendResponseJSON(w, map[string]interface{}{})
+}
+
 //GetForkRecipeByID handles a GET request to fork a new recipe from an original with a given ID
 func (h APIHandler) GetForkRecipeByID(w http.ResponseWriter, r *http.Request) {
 	recipeID := chi.URLParam(r, "recipeID")
