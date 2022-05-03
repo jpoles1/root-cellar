@@ -20,6 +20,9 @@ export default Vue.extend({
 	},
 	methods: {
 		fork() {
+			if (!confirm("Are you sure you want to fork (this will create a copy to modify)?")) {
+				return;
+			}
 			const url = this.$store.state.api_url + "/recipe/" + this.recipeID + "/fork";
 			jajax
 				.get_json(url, this.$store.state.jwt_token)
