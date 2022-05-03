@@ -2,6 +2,7 @@
 	<div>
 		<headful title="Root Cellar - Recipe Import" />
 		<input type="text" placeholder="Recipe Name" v-model="name" class="recipe-title-input" />
+		<div>URL: <input v-model="url" label="Recipe URL" style="border: 1px solid black; margin-left: 5px; font-size: 80%; padding: 2px;" /></div>
 		<div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
 			<div class="recipe-section">
 				<h2>Ingredients:</h2>
@@ -73,6 +74,7 @@ export default Vue.extend({
 			desc: "",
 			ingredient_string: "",
 			instruction_string: "",
+			url: "",
 		};
 	},
 	methods: {
@@ -91,6 +93,7 @@ export default Vue.extend({
 			return {
 				name: this.name,
 				desc: this.desc,
+				url: this.url,
 				ingredients: this.ingredient_list,
 				instructions: this.instruction_list,
 				archived: false,
