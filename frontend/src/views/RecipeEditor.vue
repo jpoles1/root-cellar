@@ -26,8 +26,15 @@
 				<span style="margin-left: 20px;" />
 				<ForkRecipe :recipeID="recipeID" />
 				<span style="margin-left: 20px;" />
+				<v-btn @click="show_tree = !show_tree" small v-if="recipe.uid == $store.state.jwt_claims.id" style="margin-left: 20px;">
+					<i class="fas fa-tree" style="font-size: 18px; margin-right: 10px;" />
+					Tree
+				</v-btn>
+				<span style="margin-left: 20px;" />
 				<DeleteRecipe :recipeID="recipeID" @delete="preventUpdate = true" />
 			</div>
+			<hr style="margin: 20px 0;" />
+			<RecipeTree :recipeID="recipe.id" :ogID="recipe.og_id" v-show="show_tree" />
 			<hr style="margin: 20px 0;" />
 			<!--Active Time: <DurationInput v-model="recipe.active_time" />
 			<input type="text" placeholder="Active Time" v-model="recipe.active_time" style="width: 140px; padding-left: 10px; font-size: 80%;"/>-->
@@ -72,6 +79,7 @@
 import Vue from "vue";
 //import DurationInput from "@/components/DurationInput.vue";
 import ForkRecipe from "@/components/ForkRecipe.vue";
+import RecipeTree from "@/components/RecipeTree.vue";
 import DeleteRecipe from "@/components/DeleteRecipe.vue";
 import * as jajax from "@/jajax";
 import moment from "moment";
@@ -81,6 +89,7 @@ import ObjectID from "bson-objectid";
 export default Vue.extend({
 	components: {
 		ForkRecipe,
+		RecipeTree,
 		DeleteRecipe,
 	},
 	props: {
@@ -90,6 +99,7 @@ export default Vue.extend({
 	},
 	data() {
 		return {
+			show_tree: false,
 			recipe: undefined as any,
 			saveTimeout: undefined as any,
 			show_url_input: false,

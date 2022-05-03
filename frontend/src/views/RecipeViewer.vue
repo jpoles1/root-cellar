@@ -15,12 +15,17 @@
 		</span>
 		<div style="margin-top: 10px;">
 			<v-btn @click="$router.push(`/recipe/${recipe.id}/edit`)" small v-if="recipe.uid == $store.state.jwt_claims.id">
-				<i class="fas fa-pencil-alt" style="font-size: 18px;" />
+				<i class="fas fa-pencil-alt" style="font-size: 18px; margin-right: 10px;" />
 				Edit
 			</v-btn>
 			<Fork :recipeID="recipe.id" style="margin-left: 20px;" />
+			<v-btn @click="show_tree = !show_tree" small style="margin-left: 20px;">
+				<i class="fas fa-tree" style="font-size: 18px; margin-right: 10px;" />
+				Tree
+			</v-btn>
 		</div>
 		<hr style="margin: 20px 0;" />
+		<RecipeTree :recipeID="recipe.id" :ogID="recipe.og_id" v-show="show_tree" />
 		<RecipeDisplay :recipe="recipe" />
 	</div>
 	<div v-else style="padding-top: 40px;">
@@ -35,13 +40,16 @@
 import Vue from "vue";
 import * as jajax from "@/jajax";
 import moment from "moment";
+import { Recipe } from "@/recipe";
 import RecipeDisplay from "@/components/RecipeDisplay.vue";
+import RecipeTree from "@/components/RecipeTree.vue";
 import Fork from "@/components/ForkRecipe.vue";
 import ObjectID from "bson-objectid";
 
 export default Vue.extend({
 	components: {
 		RecipeDisplay,
+		RecipeTree,
 		Fork,
 	},
 	props: {
@@ -51,7 +59,8 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			recipe: undefined as any,
+			show_tree: false,
+			recipe: undefined as Recipe | undefined,
 		};
 	},
 	methods: {
