@@ -17,6 +17,13 @@
 				Forked from <a :href="`/recipe/${recipe.parent_id}/`">{{ recipe.parent_id.slice(0, 6) }}</a> at {{ when_created(recipe.id, "LT on l") }}
 			</span>
 			<div style="margin-top: 10px">
+				<span>
+					<v-btn :href="`/recipe/${recipeID}/`" small>
+						<i class="fas fa-search" style="font-size: 18px; margin-right: 10px;" />
+						View
+					</v-btn>
+				</span>
+				<span style="margin-left: 20px;" />
 				<ForkRecipe :recipeID="recipeID" />
 				<span style="margin-left: 20px;" />
 				<DeleteRecipe :recipeID="recipeID" @delete="preventUpdate = true" />
