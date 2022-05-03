@@ -58,3 +58,44 @@ func (mc MongoController) FindRecipeByID(recipeID bson.ObjectId) (result *models
 	ce.APIError = collection.FindId(recipeID).One(&result)
 	return
 }
+
+type TreeNode struct {
+	Recipe   models.Recipe `json:"recipe"`
+	Children []TreeNode    `json:"children"`
+}
+
+func (mc MongoController) FindRecipeChildren(recipeID bson.ObjectId) (result []*models.Recipe, ce ControllerError) {
+	var mongoConn *mgo.Session
+	mongoConn, ce.DBError = mc.SessionClone()
+	defer mongoConn.Close()
+	if ce.DBError != nil {
+		return
+	}
+	collection := mongoConn.DB(mc.DBName).C("recipes")
+	//Find children
+	ce.APIError = collection.Find(bson.M{"parent_id": recipeID, "_id": bson.M{"$ne": recipeID}}).All(&result)
+	return
+}
+
+func (mc MongoController) FindRecipeChildrenTree(recipeID bson.ObjectId, max_depth int) (result TreeNode, ce ControllerError) {
+	recipe, ce := mc.FindRecipeByID(recipeID)
+	if ce.FirstError() != nil {
+		return
+	}
+	children, ce := mc.FindRecipeChildren(recipeID)
+	child_nodes := []TreeNode{}
+	if len(children) > 0 && max_depth > 0 {
+		for _, child := range children {
+			var grand_child TreeNode
+			grand_child, ce = mc.FindRecipeChildrenTree(child.ID, max_depth-1)
+			if ce.FirstError() != nil {
+				return
+			}
+			child_nodes = append(child_nodes, grand_child)
+
+		}
+	}
+	node := TreeNode{*recipe, child_nodes}
+	result = node
+	return
+}

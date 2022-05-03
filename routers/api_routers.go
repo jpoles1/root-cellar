@@ -24,6 +24,7 @@ func APIRouter(r chi.Router, apiHandler APIHandler) chi.Router {
 				r.Post("/import", apiHandler.PostImportRecipe)
 				r.Get("/{recipeID}/fork", apiHandler.GetForkRecipeByID)
 				r.Get("/{recipeID}/delete", apiHandler.DeleteRecipeByID)
+				r.Get("/{recipeID}/tree", apiHandler.GetRecipeTreeByID)
 				r.Post("/{recipeID}/update", apiHandler.PostUpdateRecipe)
 			})
 		})

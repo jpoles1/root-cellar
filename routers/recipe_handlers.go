@@ -135,6 +135,22 @@ func (h APIHandler) GetRecipeByID(w http.ResponseWriter, r *http.Request) {
 	sendResponseJSON(w, recipe)
 }
 
+//GetRecipeTreeByID handles a request to GET recipe data for a given ID
+func (h APIHandler) GetRecipeTreeByID(w http.ResponseWriter, r *http.Request) {
+	recipeID := chi.URLParam(r, "recipeID")
+	if !bson.IsObjectIdHex(recipeID) {
+		sendErrorCode(w, 400, "Invalid recipe ID", nil)
+		return
+	}
+	tree_max_depth := 10
+	tree, ce := h.Controller.FindRecipeChildrenTree(bson.ObjectIdHex(recipeID), tree_max_depth)
+	if ce.HasErrors() {
+		handleControllerErrors(w, 500, "Cannot retreive recipe with this ID", ce)
+		return
+	}
+	sendResponseJSON(w, &tree)
+}
+
 //PostImportRecipe handles a request to POST newly imported recipe data
 func (h APIHandler) PostImportRecipe(w http.ResponseWriter, r *http.Request) {
 	_, claims, _ := jwtauth.FromContext(r.Context())
